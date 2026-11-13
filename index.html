@@ -1,1 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <!-- كود التحقق من تسجيل الدخول (حماية التطبيق بالرمز السري) -->
+  <script>
+    if (localStorage.getItem('app_unlocked') !== 'true') {
+      document.write('<style>body { display: none !important; }</style>');
+      window.location.href = 'login.html';
+    }
+  </script>
 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0055A5">
+  <title>Le Français Au Bac</title>
+  
+  <!-- كود تفعيل Google AdSense الأساسي -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2276591955617869" crossorigin="anonymous"></script>
+
+  <!-- إعدادات تطبيق الـ PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+  
+  <style>
+    /* قفل مرسوم بـ CSS فقط (بدون SVG أو إيموجي) ليأخذ لونه دائماً: أحمر = مغلق، أزرق = مفتوح */
+    .lock-badge {
+      position: relative;
+      display: inline-block;
+      width: 18px;
+      height: 22px;
+      margin-right: 6px;
+      padding: 2px 5px;
+      box-sizing: content-box;
+      vertical-align: middle;
+      cursor: pointer;
+      color: #dc3545;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lock-badge::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      bottom: 4px;
+      width: 16px;
+      height: 11px;
+      border-radius: 3px;
+      background: currentColor;
+    }
+    .lock-badge::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 3px;
+      width: 6px;
+      height: 8px;
+      border: 2.5px solid currentColor;
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+    }
+    .lock-badge.is-open { color: #0055A5; }
+    .lock-badge.is-open::after {
+      top: 0;
+      height: 9px;
+      border-right-color: transparent;
+    }
+    .sidebar button.on .lock-badge { color: #ffffff !important; }
+    /* شريط الحقوق أعلى القائمة الجانبية */
+    .side-credit {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 0 0 6px;
+      padding: 8px 12px;
+      min-height: 46px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0055A5, #0a3d7a);
+      border-bottom: 3px solid #2dd36f;
+      color: #ffffff;
+      font-size: .8rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+    /* على الجوال: يوضع الشريط داخل الفراغ العلوي للقائمة (فوق كل العناصر) دون أن يتداخل مع أي عنصر آخر */
+    @media (max-width: 800px) {
+      .side-credit {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        left: 12px;
+        z-index: 2;
+        margin: 0;
+        height: 54px;
+        min-height: 0;
+        padding: 4px 10px;
+        font-size: .76rem;
+        line-height: 1.45;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- واجهة الترحيب + عدّاد الجلسة + الجوائز التفاعلية -->
+  <script src="./splash.js"></script>
+
+  <div class="french-flag-bg"></div>
+
+  <header class="topbar">
+    <button id="menu-btn" class="icon-btn" type="button" aria-label="القائمة">☰</button>
+    <h1>Le Français Au Bac <span>🇫🇷</span></h1>
+    <button id="install-btn" class="install" type="button" hidden>تثبيت التطبيق على الجوال</button>
+  </header>
+
+  <div id="scrim" class="scrim"></div>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="الأقسام">
+      <div class="side-credit" id="side-credit">جميع الحقوق محفوظة © - إعداد وتطوير: مسيو/ محمود أبوبكر السويدى</div>
+      <button data-nav="lessons" class="on" type="button">🎮 اختبر نفسك (Le Défi)</button>
+      <button data-nav="bac" type="button">🎓 منهج الثانوية (1Sec • 2Sec • 3Sec)</button>
+      <button data-nav="grammar" type="button">✍️ Grammaire</button>
+      <button data-nav="phonetics" type="button">🗣️ Phonétique</button>
+      <button data-nav="dictionary" type="button">📖 Dictionnaire</button>
+      <button data-nav="dialogues" type="button">💬 Dialogues</button>
+      <button data-nav="tales" type="button">🧚 Contes</button>
+      <button data-nav="exams" type="button">📝 امتحانات الثانوية العامة</button>
+      <button data-nav="soon-chansons" type="button">🎵 الأغاني الفرنسية</button>
+      <button data-nav="soon-contemporaine" type="button">🇫🇷 فرنسا المعاصرة</button>
+      <button data-nav="soon-litterature" type="button">📜 الأدب الفرنسي العالمي</button>
+      <button data-nav="soon-geographie" type="button">💬 حوار مع صديقتي Zoza</button>
+      <button data-nav="soon-argot" type="button">😎 العامية الفرنسية</button>
+      <button data-nav="chat" type="button">🤖 المساعد الذكي</button>
+      <button data-nav="student-chat" type="button">💬 شات وتواصل الطلاب</button>
+    </nav>
+
+    <main class="content">
+      <section id="lessons" class="sec on"><h2>🎮 اختبر نفسك — Testez-vous / Le Défi</h2><div id="quiz-root"><div class="empty">جارٍ التحميل…</div></div><div class="body" style="display:none"><div class="empty">جارٍ التحميل…</div></div></section>
+      <section id="bac" class="sec"><h2>🎓 منهج البكالوريا</h2><div id="bac-content-container" class="body"><div class="empty">جارٍ التحميل…</div></div></section>
+      <section id="grammar" class="sec"><h2>Grammaire — القواعد</h2><div class="body"></div></section>
+      <section id="phonetics" class="sec"><h2>Phonétique — الصوتيات</h2><div id="phon-root"></div><div class="body" style="display:none"></div></section>
+      <section id="dictionary" class="sec"><h2>Dictionnaire — القاموس</h2><div id="dict-root"></div><div class="body"></div></section>
+      <section id="dialogues" class="sec"><h2>Dialogues — حوارات يومية</h2><div id="dlg-root"></div><div class="body" style="display:none"></div></section>
+      <section id="tales" class="sec"><h2>Contes — قصص مبسطة</h2><div id="cnt-root"></div><div class="body" style="display:none"></div></section>
+      <section id="exams" class="sec"><h2>Examens du Bac — نماذج امتحانات</h2><div class="body"></div></section>
+      <section id="soon-chansons" class="sec"><h2>🎵 Chansons françaises</h2><div id="chn-root"></div><div class="body" style="display:none"></div></section>
+      <section id="soon-contemporaine" class="sec"><h2>La France contemporaine</h2><div class="soon-card"><div class="soon-icon">⏳</div><p class="soon-ar">المحتوى قيد الإعداد...</p></div></section>
+      <section id="soon-litterature" class="sec"><h2>Littérature française</h2><div class="soon-card"><div class="soon-icon">⏳</div><p class="soon-ar">المحتوى قيد الإعداد...</p></div></section>
+      <section id="soon-geographie" class="sec"><h2>💬 حوار مع صديقتي Zoza</h2><div id="talk-root"><div class="empty">جارٍ التحميل…</div></div></section>
+      <section id="soon-argot" class="sec"><h2>L'Argot</h2><div class="soon-card"><div class="soon-icon">⏳</div><p class="soon-ar">المحتوى قيد الإعداد...</p></div></section>
+      <section id="chat" class="sec">
+        <h2>المساعد الذكي 🤖</h2>
+        <div class="chips">
+          <button class="chip" type="button">passé composé</button>
+          <button class="chip" type="button">الضمائر</button>
+        </div>
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" placeholder="اكتب سؤالك…" autocomplete="off">
+          <button type="submit">إرسال</button>
+        </form>
+      </section>
+      <section id="student-chat" class="sec"><h2>💬 شات الطلاب</h2><div class="body"><div id="chat-messages-container"></div></div></section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>جميع الحقوق محفوظة © - إعداد وتطوير: مسيو/ محمود أبوبكر السويدى</p>
+    <a class="wa-btn" href="https://wa.me/201040294647" target="_blank"><span>واتساب</span></a>
+  </footer>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <!-- سكربت تسجيل الـ Service Worker بشكل آمن ومنفصل تماماً ليعمل في الخلفية دون تعطيل الوظائف -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker registered successfully!', reg.scope))
+          .catch(err => console.log('Service Worker registration failed: ', err));
+      });
+    }
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+
+  <script src="./app.js"></script>
+  <script src="./bac.js"></script>
+  <script src="./chansons.js"></script>
+  <script src="./chat.js"></script>
+  <script src="./exams.js"></script>
+  <script src="./phrase.js"></script>
+  <script src="./france.js"></script>
+  <script src="./lexique.js"></script>
+  <script src="./phonetique.js"></script>
+  <script src="./dialogues.js"></script>
+  <script src="./contes.js"></script>
+  <script src="./zoza.js?v=20261104"></script>
+  <script src="./zoza-talk.js?v=20261104"></script>
+
+  <!-- سكريبت تفعيل النطق الصوتي للنصوص الزرقاء -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      function speakFrenchText(text) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'fr-FR';
+          utterance.rate = 0.9;
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+
+      function addBlueTextButtons() {
+        const dialoguesSec = document.getElementById('dialogues');
+        if (!dialoguesSec) return;
+
+        const elements = dialoguesSec.querySelectorAll('div, p, h3, span');
+
+        elements.forEach(el => {
+          if (el.querySelector('.blue-tts-icon')) return;
+
+          const color = window.getComputedStyle(el).color;
+          const isBlue = color.includes('rgb(0, 85, 165)') || 
+                         color.includes('rgb(0, 68, 136)') || 
+                         color.includes('rgb(0, 55, 165)') ||
+                         el.style.color.includes('blue');
+
+          const text = el.innerText ? el.innerText.trim() : "";
+
+          if (isBlue && text.length > 3 && /[a-zA-ZÀ-ÿ]/.test(text)) {
+            if (el.children.length <= 2) {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'blue-tts-icon';
+              btn.innerHTML = '🔊';
+              btn.title = 'نطق النص الفرنسي';
+              btn.style.cssText = 'background: #eef5ff; border: 1px solid #b8d5ff; border-radius: 50%; width: 28px; height: 28px; font-size: 14px; margin-inline: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; box-shadow: 0 1px 3px rgba(0,0,0,0.15); padding: 0; color: #0055A5;';
+
+              btn.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                const cleanText = text.replace('🔊', '').trim();
+                speakFrenchText(cleanText);
+              });
+
+              el.appendChild(btn);
+            }
+          }
+        });
+      }
+
+      const observer = new MutationObserver(function () {
+        const dialoguesSec = document.getElementById('dialogues');
+        if (dialoguesSec && dialoguesSec.classList.contains('on')) {
+          setTimeout(addBlueTextButtons, 300);
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  </script>
+
+  <!-- سكربت حماية الأقسام والأقفال (مصحح بالكامل) -->
+  <script>
+    const protectedSections = ['bac', 'grammar', 'phonetics', 'exams', 'soon-chansons'];
+
+    function ensureLocks() {
+      protectedSections.forEach(navId => {
+        const btn = document.querySelector(`[data-nav="${navId}"]`);
+        if (!btn) return;
+        if (!btn.classList.contains('locked-section')) {
+          btn.classList.add('locked-section');
+          btn.setAttribute('data-locked-id', navId);
+        }
+        if (!btn.querySelector('.lock-badge')) {
+          const badge = document.createElement('span');
+          badge.className = 'lock-badge';
+          badge.setAttribute('role', 'button');
+          badge.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            promptForPassword(navId, btn);
+          });
+          btn.appendChild(badge);
+        }
+      });
+      updateLockVisuals();
+    }
+
+    function initLocks() {
+      ensureLocks();
+
+      document.body.addEventListener("click", function (e) {
+        const lockedBtn = e.target.closest('.locked-section');
+        if (lockedBtn && !e.target.closest('.lock-badge')) {
+          const lockedId = lockedBtn.getAttribute('data-locked-id');
+          if (localStorage.getItem(`section_unlocked_${lockedId}`) !== "true") {
+            e.preventDefault();
+            e.stopPropagation();
+            promptForPassword(lockedId, lockedBtn);
+          }
+        }
+      }, true);
+
+      // إعادة إضافة الأقفال تلقائياً إن أُعيد بناء القائمة الجانبية
+      const nav = document.querySelector('.sidebar');
+      if (nav && window.MutationObserver) {
+        new MutationObserver(function () { ensureLocks(); }).observe(nav, { childList: true, subtree: true });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", initLocks);
+    } else {
+      initLocks();
+    }
+    window.addEventListener("load", ensureLocks);
+
+    function updateLockVisuals() {
+      document.querySelectorAll('.locked-section').forEach(btn => {
+        const lockedId = btn.getAttribute('data-locked-id');
+        const isUnlocked = localStorage.getItem(`section_unlocked_${lockedId}`) === "true";
+        const badge = btn.querySelector('.lock-badge');
+        if (badge) {
+          badge.classList.toggle('is-open', isUnlocked);
+          badge.style.color = isUnlocked ? '#0055A5' : '#dc3545';
+          badge.setAttribute('aria-label', isUnlocked ? 'القسم مفتوح' : 'القسم مغلق');
+        }
+      });
+    }
+
+    function promptForPassword(lockedId, btnElement) {
+      const oldModal = document.getElementById('master-pin-modal');
+      if (oldModal) oldModal.remove();
+
+      const modalHTML = `
+        <div id="master-pin-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 99999; font-family: Tahoma, sans-serif;">
+          <div style="background: #fff; padding: 25px; border-radius: 12px; width: 320px; text-align: right; direction: rtl; box-shadow: 0 5px 20px rgba(0,0,0,0.3);">
+            <h3 style="color: #0055A5; margin-top: 0; margin-bottom: 10px; font-size: 16px;">🔐 لوحة التحكم بالرقم السري</h3>
+            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">أدخل الرقم السري للتحكم بالقسم:</p>
+            <input type="password" id="creator-pin-input" maxlength="4" inputmode="numeric" style="width: 100%; padding: 12px; font-size: 22px; text-align: center; letter-spacing: 8px; border: 2px solid #ccc; border-radius: 6px; box-sizing: border-box; margin-bottom: 15px;">
+            <div style="display: flex; gap: 10px;">
+              <button id="submit-pin-btn" style="flex: 1; background: #0055A5; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer;">تنفيذ</button>
+              <button id="cancel-pin-btn" style="background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer;">إلغاء</button>
+            </div>
+            <div id="pin-error-msg" style="color: red; font-size: 12px; margin-top: 10px; text-align: center; font-weight: bold;"></div>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      const pinInput = document.getElementById('creator-pin-input');
+      pinInput.focus();
+
+      document.getElementById('cancel-pin-btn').addEventListener('click', () => {
+        document.getElementById('master-pin-modal').remove();
+      });
+
+      document.getElementById('submit-pin-btn').addEventListener('click', () => {
+        const val = pinInput.value.trim();
+        if (val === "0519") {
+          localStorage.setItem(`section_unlocked_${lockedId}`, "true");
+          document.getElementById('master-pin-modal').remove();
+          updateLockVisuals();
+          btnElement.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+        } else if (val === "0510") {
+          localStorage.setItem(`section_unlocked_${lockedId}`, "false");
+          document.getElementById('master-pin-modal').remove();
+          updateLockVisuals();
+          alert("🔒 تم إغلاق القسم بنجاح.");
+        } else {
+          document.getElementById('pin-error-msg').innerText = "❌ الرقم السري غير صحيح!";
+          pinInput.value = "";
+          pinInput.focus();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
