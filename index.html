@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#7c3aed"><title>حوار مع صديقتي Zoza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Tahoma,sans-serif;background:linear-gradient(135deg,#fdf2f8,#eef2ff);color:#1f2937;min-height:100vh}
 button{font-family:inherit;cursor:pointer}main{max-width:720px;margin:auto;padding:10px}
@@ -25,7 +26,50 @@ button{font-family:inherit;cursor:pointer}main{max-width:720px;margin:auto;paddi
 #in{display:flex;gap:6px;align-items:center}#ip{flex:1;min-width:0;padding:12px;border:2px solid #e9d5ff;border-radius:16px;font-size:1rem;direction:ltr}
 .rd{width:54px;height:54px;border-radius:50%;border:0;background:#7c3aed;color:#fff;font-size:1.4rem}.rd.on{background:#16a34a;animation:pu 1s infinite}
 footer{text-align:center;font-size:.75rem;color:#6b7280;padding:10px}.t{font-size:.75rem;text-align:center;color:#6b7280}
+#cover{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;color:#fff;overflow:auto;font-family:Cairo,Tahoma,sans-serif;background:linear-gradient(135deg,#1e1b4b,#4c1d95,#be185d,#4c1d95,#1e1b4b);background-size:400% 400%;animation:bg 14s ease infinite;transition:opacity .7s,transform .7s}
+#cover.out{opacity:0;transform:scale(1.08);pointer-events:none}@keyframes bg{50%{background-position:100% 50%}}
+.sk{position:absolute;inset:0;pointer-events:none;overflow:hidden}.sk:before{content:"";position:absolute;top:0;left:0;width:3px;height:3px;border-radius:50%;background:#fff;animation:tw 4s infinite;box-shadow:12vw 8vh #fff,30vw 20vh #fde68a,55vw 6vh #fff,78vw 14vh #f9a8d4,90vw 30vh #fff,8vw 45vh #fde68a,40vw 55vh #fff,66vw 48vh #fff,85vw 62vh #fde68a,20vw 75vh #fff,50vw 85vh #f9a8d4,72vw 90vh #fff,95vw 80vh #fff,5vw 92vh #fde68a}@keyframes tw{50%{opacity:.2}}
+.cav{position:relative;width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #fde68a;box-shadow:0 0 0 8px rgba(255,255,255,.12),0 0 50px #f472b6;animation:fl 4s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-10px)}}
+.ct{font-weight:900;font-size:clamp(1.6rem,6vw,2.6rem);margin:0;line-height:1.5;background:linear-gradient(90deg,#fff,#f9a8d4,#fde68a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cs{margin:0;max-width:480px;line-height:1.9;font-size:.95rem;opacity:.95;position:relative}
+.cf{position:relative;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}.cf span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:6px 12px;font-weight:700;font-size:.82rem;backdrop-filter:blur(6px)}
+.dev{position:relative;margin-top:4px;padding:12px 24px 8px;border-radius:24px;border:1px solid rgba(253,230,138,.6);background:rgba(0,0,0,.3);box-shadow:0 0 34px rgba(253,224,71,.28)}
+.dev small{display:block;letter-spacing:3px;font-size:.8rem;color:#fde68a}
+.dn{font-family:'Aref Ruqaa',Amiri,serif;font-weight:700;font-size:clamp(1.9rem,8vw,3.2rem);line-height:1.6;background:linear-gradient(90deg,#fde68a,#fff,#f59e0b,#fff,#fde68a);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite;filter:drop-shadow(0 2px 8px rgba(245,158,11,.6))}@keyframes sh{to{background-position:-250% 0}}
+.go{position:relative;border:0;border-radius:30px;padding:14px 34px;font-family:inherit;font-size:1.15rem;font-weight:900;color:#4c1d95;background:linear-gradient(90deg,#fde68a,#f9a8d4);box-shadow:0 8px 24px rgba(0,0,0,.4);animation:pl 1.6s infinite}@keyframes pl{50%{transform:scale(1.06)}}
+.cr{position:relative;font-size:.78rem;opacity:.92;max-width:470px;line-height:1.9;margin:0}.cr b{color:#fde68a}
+
+/* ===== تجاوب كامل: موبايل / تابلت / لابتوب / كمبيوتر ===== */
+:root{--fh:clamp(150px,34dvh,340px)}
+html{-webkit-text-size-adjust:100%}html,body{overflow-x:hidden}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+main{width:100%}
+#fig{height:var(--fh)}
+#ring{width:calc(var(--fh)*1.1);height:calc(var(--fh)*1.1);top:calc(8px + var(--fh)/2);margin:calc(var(--fh)*-.55) 0 0 calc(var(--fh)*-.55);border-radius:30px}
+#chat{height:clamp(170px,32dvh,420px)}
+.row button,.tg button,#sg button,.m button{min-height:36px}
+#lock div{width:min(340px,90vw)}
+#cover{justify-content:flex-start;min-height:100dvh;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom))}
+.cav{margin-top:auto;width:clamp(90px,18dvh,170px);height:clamp(90px,18dvh,170px);flex:none}.cr{margin-bottom:auto}
+@media (max-height:640px){#cover{gap:7px}.cs{font-size:.85rem;line-height:1.6}.cf span{padding:4px 9px;font-size:.75rem}.go{padding:10px 26px}}
+@media (min-width:600px){main{max-width:760px;padding:14px}:root{--fh:clamp(220px,38dvh,400px)}.cs{font-size:1.05rem;max-width:560px}.cf span{font-size:.95rem;padding:8px 15px}}
+@media (min-width:900px),(orientation:landscape) and (min-width:600px){
+ main{max-width:1180px;display:grid;grid-template-columns:minmax(340px,.9fr) 1.1fr;gap:14px;align-items:start}
+ #stage{grid-column:1;grid-row:1}.card{grid-column:1;grid-row:2;margin:0}
+ #chat{grid-column:2;grid-row:1;height:clamp(300px,calc(100dvh - 150px),720px)}
+ #sg{grid-column:2;grid-row:2;margin:0}#in{grid-column:2;grid-row:3}.t{grid-column:1/3;grid-row:4}
+ :root{--fh:clamp(200px,46dvh,420px)}}
+@media (orientation:landscape) and (max-height:520px){:root{--fh:clamp(110px,52dvh,230px)}#chat{height:calc(100dvh - 130px)}.cav{display:none}}
+@media (min-width:1500px){main{max-width:1360px}html{font-size:17px}}
 </style></head><body>
+<div id="cover"><div class="sk"></div>
+<img class="cav" src="assets/zoza.jpg" alt="Zoza" onerror="this.style.display='none'">
+<h1 class="ct">حوار مع صديقتي Zoza</h1>
+<p class="cs">صديقة ذكية بوجه حيّ تتحدث معك بالفرنسية بصوتها، تفهم كلامك وترد عليك وتصحح أخطاءك بلطف، لتتعلم وأنت تتحدث وتستمتع.</p>
+<div class="cf"><span>🎙️ حوار صوتي حرّ</span><span>🧠 ذكاء يفهمك ويتذكرك</span><span>🎭 مواضيع متنوعة وألعاب</span><span>✏️ تصحيح فوري بالعربية</span></div>
+<div class="dev"><small>✦ تطوير وإعداد ✦</small><div class="dn">مسيو/ محمود أبوبكر السويدى</div></div>
+<button class="go" id="cgo">✨ ابدأ الحوار مع زوزا</button>
+<p class="cr">© جميع حقوق النشر والتوزيع محفوظة لمنشئ المحتوى<br><b>مسيو/ محمود أبوبكر السويدى</b></p></div>
 <div id="lock"><div><h3 style="text-align:center;margin:0 0 12px">تسجيل الدخول</h3><label>اسم المستخدم</label><input id="u"><label>الرقم السري</label><input id="p" type="password"><button class="big" id="go">دخول</button><p id="er" style="color:#dc3545;display:none;text-align:center">بيانات غير صحيحة</p></div></div>
 <main>
 <section id="stage"><div id="ring"></div>
@@ -37,7 +81,7 @@ footer{text-align:center;font-size:.75rem;color:#6b7280;padding:10px}.t{font-siz
 <div id="chat"></div><div id="sg"></div>
 <div id="in"><button class="rd" id="mic" title="محادثة صوتية حرّة">🎙️</button><input id="ip" autocomplete="off" placeholder="اكتب بالفرنسية… أو اضغط 🎙️ وتحدّث"><button class="rd" id="snd" style="width:46px;height:46px;font-size:1.1rem">➤</button></div>
 <p class="t">اضغط 🎙️ مرة واحدة لبدء حوار صوتي متواصل بلا لمس — زوزا تستمع، تفكر، ثم تردّ بصوتها.</p>
-</main><footer>جميع الحقوق محفوظة © - إعداد وتطوير: مسيو/ محمود أبوبكر السويدى</footer>
+</main><footer>© جميع حقوق النشر والتوزيع محفوظة لمنشئ المحتوى — مسيو/ محمود أبوبكر السويدى</footer>
 <script>
 (function(){'use strict';
 var AI_URL=''; /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
@@ -48,6 +92,8 @@ function save(){try{localStorage.setItem('zz2',JSON.stringify(ST))}catch(e){}}
 var fold=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’‘`´]/g,"'")};
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 var isAr=function(s){return /[\u0600-\u06FF]/.test(s)&&!/[a-zA-Z]{3,}/.test(s)};
+/* ===== الغلاف ===== */
+$('#cgo').onclick=function(){var c=$('#cover');c.classList.add('out');setTimeout(function(){c.style.display='none'},750);window.zGo=1;if(window.zStart)window.zStart()};
 /* ===== قفل الدخول ===== */
 function unlock(){$('#lock').style.display='none';try{sessionStorage.setItem('zzauth','1')}catch(e){}}
 $('#go').onclick=function(){if($('#u').value==='admin'&&$('#p').value==='000519')unlock();else $('#er').style.display='block'};
@@ -220,7 +266,7 @@ document.addEventListener('click',function(e){var x=e.target.closest('button');i
  else if(d.tg){ST[d.tg]=ST[d.tg]?0:1;save();chips();if(d.tg==='tr')document.querySelectorAll('[data-ar]').forEach(function(a){a.hidden=!ST.tr});if(d.tg==='voice'&&!ST.voice)stopSpeak()}});
 /* ===== الإقلاع ===== */
 function ready(){D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');
- var n=ST.f.name;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})}
+ var n=ST.f.name;window.zStart=function(){if(window.zDone)return;window.zDone=1;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})};if(window.zGo)window.zStart()}
 busy=1;fetch('data/talk.json').then(function(r){return r.json()}).then(function(j){D.levels=j.levels?Object.keys(j.levels).reduce(function(o,k){o[k]=j.levels[k];return o},{}):D.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){}).then(ready);
 })();
 </script></body></html>
