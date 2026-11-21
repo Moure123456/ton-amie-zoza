@@ -1,106 +1,242 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#7c3aed">
-  <title>حوار مع صديقتي Zoza</title>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7c3aed"><title>حوار مع صديقتي Zoza</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,sans-serif;background:linear-gradient(135deg,#fdf2f8,#eef2ff);color:#1f2937;min-height:100vh}
+button{font-family:inherit;cursor:pointer}main{max-width:720px;margin:auto;padding:10px}
+#lock{position:fixed;inset:0;background:#1a1a1a;z-index:99;display:flex;align-items:center;justify-content:center}
+#lock div{background:#fff;padding:26px;border-radius:14px;width:320px}#lock input{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #ddd;border-radius:8px;font-size:16px}
+.big{width:100%;padding:12px;border:0;border-radius:10px;background:#7c3aed;color:#fff;font-weight:700;font-size:16px}
+#stage{position:relative;border-radius:26px;overflow:hidden;color:#fff;text-align:center;padding:8px 8px 10px;background:radial-gradient(circle at 50% 30%,#a78bfa,#7c3aed 45%,#312e81)}
+#av{height:min(40vh,300px);width:auto;display:block;margin:auto;filter:drop-shadow(0 12px 14px rgba(0,0,0,.35))}
+#ring{position:absolute;left:50%;top:44%;width:210px;height:210px;margin:-105px;border-radius:50%;border:3px solid rgba(255,255,255,.0);pointer-events:none;transition:.3s}
+.listen #ring{border-color:#86efac;animation:pu 1.2s infinite}.think #ring{border-color:#fde68a;animation:pu 2s infinite}.speak #ring{border-color:#f9a8d4;animation:pu .7s infinite}
+@keyframes pu{50%{transform:scale(1.08);opacity:.4}}
+#stt{font-weight:800;font-size:.9rem}#cap{min-height:2.4em;direction:ltr;font-size:.95rem;opacity:.95;padding:0 8px}
+.card{background:#fff;border:1px solid #e9d5ff;border-radius:18px;padding:8px;margin:8px 0}
+.row{display:flex;gap:6px;overflow-x:auto;padding:2px}.row button,.tg button{flex:none;border:1px solid #e9d5ff;background:#fff;border-radius:16px;padding:7px 11px;font-weight:800;font-size:.8rem;color:#6b21a8}
+.row button.on,.tg button.on{background:#7c3aed;color:#fff}
+#chat{height:min(36vh,330px);overflow-y:auto;background:rgba(255,255,255,.6);border:1px solid #e9d5ff;border-radius:18px;padding:8px;display:flex;flex-direction:column;gap:8px}
+.m{max-width:88%;padding:8px 11px;border-radius:16px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);align-self:flex-start}.m.u{align-self:flex-end;background:#7c3aed;color:#fff}
+.fr{direction:ltr;text-align:left;font-weight:700;line-height:1.7}.ar{font-size:.82rem;color:#6b7280;margin-top:3px}.m button{border:0;background:#f3e8ff;border-radius:12px;padding:3px 9px;margin-top:4px}
+.fx{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:6px 9px;margin-top:6px;font-size:.8rem;color:#1f2937}.fx s{color:#dc2626}.fx u{color:#16a34a;text-decoration:none;font-weight:800}
+#sg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}#sg button{border:1.5px solid #c4b5fd;background:#fff;color:#6d28d9;border-radius:15px;padding:6px 11px;font-weight:800;direction:ltr}
+#in{display:flex;gap:6px;align-items:center}#ip{flex:1;min-width:0;padding:12px;border:2px solid #e9d5ff;border-radius:16px;font-size:1rem;direction:ltr}
+.rd{width:54px;height:54px;border-radius:50%;border:0;background:#7c3aed;color:#fff;font-size:1.4rem}.rd.on{background:#16a34a;animation:pu 1s infinite}
+footer{text-align:center;font-size:.75rem;color:#6b7280;padding:10px}.t{font-size:.75rem;text-align:center;color:#6b7280}
+</style></head><body>
+<div id="lock"><div><h3 style="text-align:center;margin:0 0 12px">تسجيل الدخول</h3><label>اسم المستخدم</label><input id="u"><label>الرقم السري</label><input id="p" type="password"><button class="big" id="go">دخول</button><p id="er" style="color:#dc3545;display:none;text-align:center">بيانات غير صحيحة</p></div></div>
+<main>
+<section id="stage"><div id="ring"></div>
+<svg id="av" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcdcc2"/><stop offset="1" stop-color="#efbf9a"/></linearGradient>
+<linearGradient id="hr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2c1b"/><stop offset="1" stop-color="#1e110a"/></linearGradient></defs>
+<g id="bd"><rect x="85" y="150" width="30" height="55" rx="12" fill="#efbf9a"/><path d="M15 250Q18 198 68 190L132 190Q182 198 185 250Z" fill="#6d28d9"/><path d="M82 190Q100 222 118 190Z" fill="#efbf9a"/><circle cx="100" cy="226" r="5" fill="#fde68a"/></g>
+<g id="hd"><path d="M44 118Q38 36 100 30Q166 34 158 122Q168 190 150 220L50 220Q32 190 44 118Z" fill="url(#hr)"/>
+<ellipse cx="51" cy="124" rx="6" ry="11" fill="#efbf9a"/><ellipse cx="149" cy="124" rx="6" ry="11" fill="#efbf9a"/>
+<ellipse cx="100" cy="118" rx="50" ry="60" fill="url(#sk)"/>
+<path d="M48 108Q48 42 100 40Q152 42 152 108Q138 72 100 66Q66 72 48 108Z" fill="url(#hr)"/>
+<circle cx="68" cy="140" r="9" fill="#f9a8b8" opacity=".45"/><circle cx="132" cy="140" r="9" fill="#f9a8b8" opacity=".45"/>
+<g id="br" fill="none" stroke="#2a1810" stroke-width="4" stroke-linecap="round"><path d="M67 92Q79 85 93 90"/><path d="M107 90Q121 85 133 92"/></g>
+<g><ellipse cx="80" cy="108" rx="12" ry="8.5" fill="#fff"/><ellipse cx="120" cy="108" rx="12" ry="8.5" fill="#fff"/>
+<g id="ir"><circle cx="80" cy="108" r="6" fill="#4a2c17"/><circle cx="120" cy="108" r="6" fill="#4a2c17"/><circle cx="80" cy="108" r="3" fill="#000"/><circle cx="120" cy="108" r="3" fill="#000"/><circle cx="82" cy="106" r="1.6" fill="#fff"/><circle cx="122" cy="106" r="1.6" fill="#fff"/></g>
+<ellipse id="lA" cx="80" cy="107" rx="13" ry="0" fill="#f6cfae"/><ellipse id="lB" cx="120" cy="107" rx="13" ry="0" fill="#f6cfae"/>
+<path d="M67 104Q80 96 93 104M107 104Q120 96 133 104" fill="none" stroke="#1e110a" stroke-width="2.2" stroke-linecap="round"/></g>
+<path d="M100 114Q95 136 102 139" fill="none" stroke="#d49a76" stroke-width="2.4" stroke-linecap="round"/>
+<path id="mt" fill="#7a1f2b" stroke="#c2415d" stroke-width="3" stroke-linejoin="round"/><rect id="tt" fill="#fff" rx="2"/></g>
+</svg>
+<div id="stt">✨ جاهزة</div><div id="cap"></div></section>
+<div class="card"><div class="row" id="lv"></div><div class="row" id="tp"></div><div class="row tg" id="tg"></div></div>
+<div id="chat"></div><div id="sg"></div>
+<div id="in"><button class="rd" id="mic" title="محادثة صوتية حرّة">🎙️</button><input id="ip" autocomplete="off" placeholder="اكتب بالفرنسية… أو اضغط 🎙️ وتحدّث"><button class="rd" id="snd" style="width:46px;height:46px;font-size:1.1rem">➤</button></div>
+<p class="t">اضغط 🎙️ مرة واحدة لبدء حوار صوتي متواصل بلا لمس — زوزا تستمع، تفكر، ثم تردّ بصوتها.</p>
+</main><footer>جميع الحقوق محفوظة © - إعداد وتطوير: مسيو/ محمود أبوبكر السويدى</footer>
+<script>
+(function(){'use strict';
+var AI_URL=''; /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
+var $=function(s){return document.querySelector(s)},pick=function(a){return a[Math.random()*a.length|0]};
+var ST=(function(){try{return JSON.parse(localStorage.getItem('zz2'))}catch(e){}})()||{};
+ST=Object.assign({lv:'b',voice:1,tr:1,hands:0,xp:0,ai:'',f:{}},ST);
+function save(){try{localStorage.setItem('zz2',JSON.stringify(ST))}catch(e){}}
+var fold=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’‘`´]/g,"'")};
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var isAr=function(s){return /[\u0600-\u06FF]/.test(s)&&!/[a-zA-Z]{3,}/.test(s)};
+/* ===== قفل الدخول ===== */
+function unlock(){$('#lock').style.display='none';try{sessionStorage.setItem('zzauth','1')}catch(e){}}
+$('#go').onclick=function(){if($('#u').value==='admin'&&$('#p').value==='000519')unlock();else $('#er').style.display='block'};
+try{if(sessionStorage.getItem('zzauth'))$('#lock').style.display='none'}catch(e){}
 
-  <!-- ملفات التنسيق الأساسية -->
-  <link rel="stylesheet" href="./styles.css">
-  
-  <style>
-    /* تنسيقات خاصة لتجربة محادثة زوزا في صفحة مستقلة بكامل الشاشة */
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #fdf2f8, #eef2ff);
-      font-family: Tahoma, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .zoza-main-wrapper {
-      max-width: 700px;
-      width: 100%;
-      margin: 20px auto;
-      padding: 10px;
-      box-sizing: border-box;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .site-footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 0.8rem;
-      color: #6b7280;
-      background: rgba(255, 255, 255, 0.7);
-      border-top: 1px solid #e9d5ff;
-    }
-  </style>
-</head>
-<body>
+/* ===== الوجه البشري: شفاه + رأس + عيون ===== */
+var A={mo:0,mw:1,to:0,tw:1,vs:.8,nx:0,nod:0,tilt:0,gx:0,gy:0,tgx:0,tgy:0,nb:2,bs:-9,brow:0,tb:0,t:0,sp:false,state:'idle',sacc:0};
+var el={mt:$('#mt'),tt:$('#tt'),hd:$('#hd'),ir:$('#ir'),br:$('#br'),lA:$('#lA'),lB:$('#lB'),bd:$('#bd')};
+function frame(ts){var t=ts/1000,dt=Math.min(.05,t-(A.t||t));A.t=t;
+ if(A.sp){if(t>A.nx){A.nx=t+.08+Math.random()*.09;A.to=(.2+Math.random()*.75)*A.vs}}else{A.to=0;A.tw=1}
+ var k=Math.min(1,dt*20);A.mo+=(A.to-A.mo)*k;A.mw+=(A.tw-A.mw)*k;A.nod*=Math.pow(.02,dt);
+ var st=A.state,tl=0,smile=(st==='idle'||st==='listen')?1:.4;
+ if(st==='idle')tl=2*Math.sin(t*.6);if(st==='listen'){tl=8+2*Math.sin(t*.9);A.tgx=0;A.tgy=0;A.tb=-3}
+ if(st==='think'){tl=-7;A.tgx=4;A.tgy=-3.5;A.tb=-5}
+ if(st==='speak'){tl=3*Math.sin(t*1.3)+2*Math.sin(t*2.7);A.tb=A.mo>.5?-2:0}
+ if(st==='idle'){A.tb=0}
+ if(t>A.sacc&&(st==='idle'||st==='speak')){A.sacc=t+1+Math.random()*2.5;A.tgx=(Math.random()-.5)*5;A.tgy=(Math.random()-.5)*3}
+ A.tilt+=(tl-A.tilt)*Math.min(1,dt*4);A.gx+=(A.tgx-A.gx)*Math.min(1,dt*12);A.gy+=(A.tgy-A.gy)*Math.min(1,dt*12);A.brow+=(A.tb-A.brow)*Math.min(1,dt*8);
+ var dy=A.nod*4+Math.sin(t*1.1)*1.2,dx=Math.sin(t*.5)*1.5+A.tilt*.3;
+ el.hd.setAttribute('transform','translate('+dx.toFixed(2)+' '+dy.toFixed(2)+') rotate('+(A.tilt+A.nod*2.5).toFixed(2)+' 100 205)');
+ el.bd.setAttribute('transform','translate(0 '+(Math.sin(t*1.1)*1.5).toFixed(2)+')');
+ el.ir.setAttribute('transform','translate('+A.gx.toFixed(2)+' '+A.gy.toFixed(2)+')');
+ el.br.setAttribute('transform','translate(0 '+A.brow.toFixed(2)+')');
+ if(t>A.nb){A.bs=t;A.nb=t+2+Math.random()*3.5}var b=t-A.bs,ly=b<.16?9*Math.sin(Math.PI*b/.16):0;
+ el.lA.setAttribute('ry',ly.toFixed(2));el.lB.setAttribute('ry',ly.toFixed(2));
+ var cx=100,cy=170,hw=15*A.mw,o=A.mo,cr=cy-smile*3,lo=cy+3+o*20;
+ el.mt.setAttribute('d','M'+(cx-hw)+' '+cr+'Q'+cx+' '+(cy-5-o*2)+' '+(cx+hw)+' '+cr+'Q'+cx+' '+(lo+ (o<.05?3:0))+' '+(cx-hw)+' '+cr+'Z');
+ el.tt.setAttribute('x',cx-hw*.65);el.tt.setAttribute('y',cy-2);el.tt.setAttribute('width',hw*1.3);el.tt.setAttribute('height',o>.12?Math.min(5,o*9):0);
+ requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+var LAB={idle:'✨ جاهزة',listen:'👂 أستمع إليك…',think:'💭 أفكّر…',speak:'🗣️ زوزا تتحدّث'};
+function setState(s){A.state=s;$('#stage').className=s;$('#stt').textContent=LAB[s]}
+function viseme(w){var m=fold(w).match(/[aeiouy]/);var v=m?m[0]:'a';
+ var V={a:[.95,1],o:[.6,.7],u:[.4,.55],i:[.45,1.2],e:[.55,1.1],y:[.4,.6]}[v];if(/^ou|^u/.test(fold(w))){V=[.4,.55]}A.vs=V[0];A.tw=V[1]}
 
-  <!-- شاشة قفل الحماية (تظهر أولاً وتختفي عند إدخال بيانات صحيحة) -->
-  <div id="auth-lock-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; z-index: 999999; display: flex; justify-content: center; align-items: center; font-family: Tahoma, sans-serif;">
-    <div style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 100%; max-width: 350px; text-align: right; direction: rtl;">
-      <h2 style="margin-bottom: 20px; color: #333; text-align: center; font-size: 20px;">تسجيل الدخول للتطبيق</h2>
-      <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 5px; color: #666; font-size: 14px;">اسم المستخدم</label>
-        <input type="text" id="auth-username" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px;" placeholder="أدخل اسم المستخدم">
-      </div>
-      <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 5px; color: #666; font-size: 14px;">الرقم السري</label>
-        <input type="password" id="auth-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px;" placeholder="أدخل الرقم السري">
-      </div>
-      <button onclick="checkAuthCredentials()" style="width: 100%; padding: 12px; background: #7c3aed; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold;">دخول</button>
-      <p id="auth-error-msg" style="color: #dc3545; text-align: center; margin-top: 15px; font-size: 14px; display: none;">بيانات الدخول غير صحيحة!</p>
-    </div>
-  </div>
+/* ===== الصوت: نطق زوزا ===== */
+var syn=window.speechSynthesis,VO=[];function lv_(){VO=(syn&&syn.getVoices())||[]}lv_();if(syn)syn.onvoiceschanged=lv_;
+function voice(){var f=VO.filter(function(v){return /^fr/i.test(v.lang)});return f.filter(function(v){return /amelie|amélie|audrey|marie|julie|denise|vivienne|hortense|google fran|female|femme/i.test(v.name)})[0]||f[0]}
+var RATE={b:.72,m:.86,a:.96};
+function clean(t){return String(t).replace(/[«»]/g,'').replace(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF]/gu,'').replace(/\s+/g,' ').trim()}
+var speaking=0;
+function speak(text,done){var tx=clean(text),ss=tx.match(/[^.!?…]+[.!?…]*/g)||[tx],i=0,fin=0,id=++speaking;
+ function end(){if(fin)return;fin=1;A.sp=false;A.nod=0;if(done)done()}
+ setState('speak');A.sp=true;A.nx=0;
+ if(!syn||!ST.voice){setTimeout(end,Math.min(6000,tx.length*55));return}
+ syn.cancel();
+ (function nx(){if(id!==speaking){return}if(i>=ss.length){end();return}var s=ss[i++].trim(),u=new SpeechSynthesisUtterance(s),v=voice(),ok=0;
+  $('#cap').textContent=s;if(/\?/.test(s))A.tb=-5;
+  u.lang='fr-FR';if(v)u.voice=v;u.rate=ST.slow?.55:RATE[ST.lv];u.pitch=1.1;
+  var go=function(){if(ok)return;ok=1;clearTimeout(wd);nx()},wd=setTimeout(go,s.length*120+2500);
+  u.onboundary=function(e){var w=s.substr(e.charIndex).match(/[a-zà-ÿ]+/i);if(w)viseme(w[0]);A.nod=.9;A.nx=0};
+  u.onend=go;u.onerror=go;syn.speak(u)})()}
+function stopSpeak(){speaking++;A.sp=false;if(syn)syn.cancel()}
 
-  <div class="zoza-main-wrapper">
-    <!-- قسم حوار مع صديقتي Zoza كاملاً كما هو دون أي نقص -->
-    <section id="soon-geographie" class="sec on" style="display: block !important;">
-      <h2 style="text-align: center; color: #7c3aed; margin-bottom: 15px;">💬 حوار مع صديقتي Zoza</h2>
-      <div id="talk-root">
-        <div class="empty">جارٍ تحميل زوزا…</div>
-      </div>
-    </section>
-  </div>
+/* ===== الاستماع (محادثة صوتية حرّة) ===== */
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null,busy=0,errs=0;
+function listen(){if(!ST.hands||busy||!SR)return;try{if(rec)rec.abort()}catch(e){}
+ var r=new SR(),got=0;r.lang='fr-FR';r.interimResults=true;r.maxAlternatives=1;rec=r;
+ r.onstart=function(){setState('listen');$('#cap').textContent='…'};
+ r.onresult=function(e){var x=e.results[e.results.length-1],tx=x[0].transcript;$('#cap').textContent=tx;if(x.isFinal){got=1;errs=0;handle(tx)}};
+ r.onerror=function(e){if(e.error==='not-allowed'||e.error==='service-not-allowed'){ST.hands=0;mic();note('⚠️ اسمح للمتصفح باستخدام الميكروفون.')}else errs++};
+ r.onend=function(){if(!got&&ST.hands&&!busy&&errs<6)setTimeout(listen,350);else if(!got&&!busy){setState('idle')}};
+ try{r.start()}catch(e){}}
+function mic(){$('#mic').classList.toggle('on',!!ST.hands)}
+$('#mic').onclick=function(){if(!SR){note('🎤 المتصفح لا يدعم التعرف على الصوت (استخدم Chrome).');return}
+ ST.hands=ST.hands?0:1;save();mic();errs=0;if(ST.hands){ST.voice=1;stopSpeak();listen()}else{try{rec.abort()}catch(e){}setState('idle')}};
 
-  <footer class="site-footer">
-    <p>جميع الحقوق محفوظة © - إعداد وتطوير: مسيو/ محمود أبوبكر السويدى</p>
-  </footer>
-
-  <!-- ملفات الجافاسكريبت وبيانات زوزا كاملة -->
-  <script src="./zoza.js?v=20261104"></script>
-  <script src="./zoza-talk.js?v=20261104"></script>
-
-  <!-- سكربت التحقق من بيانات الدخول -->
-  <script>
-    function checkAuthCredentials() {
-        var user = document.getElementById('auth-username').value;
-        var pass = document.getElementById('auth-password').value;
-        
-        if (user === 'admin' && pass === '000519') {
-            document.getElementById('auth-lock-screen').style.display = 'none';
-            sessionStorage.setItem('isAppAuthenticated', 'true');
-        } else {
-            var errorMsg = document.getElementById('auth-error-msg');
-            errorMsg.style.display = 'block';
-        }
-    }
-
-    // السماح بالدخول تلقائياً طوال الجلسة الحالية إذا تم إدخال البيانات مسبقاً
-    window.addEventListener('DOMContentLoaded', function() {
-        if (sessionStorage.getItem('isAppAuthenticated') === 'true') {
-            document.getElementById('auth-lock-screen').style.display = 'none';
-        }
-    });
-  </script>
-
-</body>
-</html>
+/* ===== البيانات ===== */
+var D={levels:{b:{ar:'مبتدئ',ic:'🌱'},m:{ar:'متوسط',ic:'🌿'},a:{ar:'متقدم',ic:'🌳'}},topics:[],react:{pos:[['Super !','رائع!'],['J’adore ta réponse !','أحببت إجابتك!']],neg:[['Je comprends.','أفهمك.']],neu:[['Intéressant !','مثير للاهتمام!'],['Ah oui ?','حقًّا؟'],['Je vois !','فهمت!']],long:[['Tu t’exprimes très bien !','تعبّر عن نفسك جيدًا!']]},jokes:[['Pourquoi les maths sont-elles tristes ? Parce qu’elles ont trop de problèmes !','لأن لديها «problèmes» أي مسائل ومشاكل!']],sayings:[['Petit à petit, l’oiseau fait son nid.','قليلًا قليلًا يبني الطائر عشه.']],twisters:[['Trois tortues trottaient sur un trottoir très étroit.','ثلاث سلاحف تمشي على رصيف ضيق جدًا.']]};
+var X=[['cine','🎬','السينما','Le cinéma',['film','cinema','acteur','serie'],[['Quel est ton film préféré ? Pourquoi ?','ما فيلمك المفضل؟ ولماذا؟'],['Tu préfères le cinéma ou les séries ?','هل تفضل السينما أم المسلسلات؟'],['Si tu étais acteur, quel rôle jouerais-tu ?','لو كنت ممثلًا، فأي دور تؤدي؟']]],
+['music','🎵','الموسيقى','La musique',['musique','chanson','chanteur','guitare'],[['Quelle musique écoutes-tu en ce moment ?','أي موسيقى تسمع الآن؟'],['Tu joues d’un instrument ?','هل تعزف على آلة؟'],['Une chanson peut-elle changer ta journée ?','هل تغيّر أغنية يومك؟']]],
+['animals','🐾','الحيوانات','Les animaux',['chat','chien','animal','oiseau','cheval'],[['Quel est ton animal préféré ?','ما حيوانك المفضل؟'],['Tu as un animal à la maison ?','هل عندك حيوان أليف؟'],['Si tu pouvais parler à un animal, lequel choisirais-tu ?','لو استطعت محادثة حيوان، فأيها تختار؟']]],
+['space','🚀','الفضاء','L’espace',['espace','lune','planete','etoile','mars'],[['Aimerais-tu aller sur la Lune ?','هل تحب الذهاب إلى القمر؟'],['Crois-tu qu’il y a de la vie sur Mars ?','هل تظن أن هناك حياة على المريخ؟'],['Quelle planète voudrais-tu visiter ?','أي كوكب تود زيارته؟']]],
+['egypt','🏺','مصر والتاريخ','L’Égypte et l’histoire',['egypte','pyramide','pharaon','nil','histoire'],[['Que sais-tu sur les pyramides ?','ماذا تعرف عن الأهرامات؟'],['Quel est ton endroit préféré en Égypte ?','ما مكانك المفضل في مصر؟'],['Quel personnage historique admires-tu ?','أي شخصية تاريخية تُعجب بها؟']]],
+['cook','🍳','الطبخ','La cuisine',['cuisine','cuisiner','recette','gateau','plat'],[['Sais-tu cuisiner ? Quel est ton plat préféré ?','هل تجيد الطبخ؟ ما طبقك المفضل؟'],['Quel dessert français voudrais-tu goûter ?','أي حلوى فرنسية تود تذوقها؟'],['Qui cuisine le mieux chez toi ?','من يطبخ أفضل في بيتك؟']]],
+['games','🎮','الألعاب','Les jeux',['jeu','jeux','jouer','video','console'],[['À quel jeu joues-tu le plus ?','أي لعبة تلعبها أكثر؟'],['Les jeux vidéo sont-ils bons ou mauvais ?','هل ألعاب الفيديو جيدة أم سيئة؟'],['Si tu inventais un jeu, il serait comment ?','لو اخترعت لعبة، فكيف ستكون؟']]],
+['pref','🤔','تفضّل أيهما؟','Tu préfères… ?',['prefere','choisir','choix'],[['Tu préfères voler comme un oiseau ou nager comme un poisson ?','هل تفضل الطيران كطائر أم السباحة كسمكة؟'],['Tu préfères la mer ou la montagne ?','هل تفضل البحر أم الجبل؟'],['Tu préfères être très riche ou très célèbre ?','هل تفضل أن تكون غنيًّا جدًّا أم مشهورًا جدًّا؟']]],
+['env','🌍','البيئة','La planète',['nature','environnement','pollution','arbre','eau'],[['Que fais-tu pour protéger la nature ?','ماذا تفعل لحماية الطبيعة؟'],['Pourquoi les arbres sont-ils importants ?','لماذا الأشجار مهمة؟'],['Comment sera la Terre dans cent ans ?','كيف ستكون الأرض بعد مئة عام؟']]]];
+var RID=[['Je suis plein de trous mais je retiens l’eau. Qui suis-je ?','أنا مليء بالثقوب لكني أحتفظ بالماء. من أنا؟','eponge'],['Plus on m’enlève, plus je deviens grand. Qui suis-je ?','كلما أخذوا مني صرتُ أكبر. من أنا؟','trou'],['Je monte et je descends sans bouger. Qui suis-je ?','أصعد وأنزل دون أن أتحرك. من أنا؟','escalier']];
+var S={tp:null,qi:0,hist:[],turns:0,riddle:null,last:null};
+function getTopics(){return D.topics}
+function norm(t){return t.q?t:{id:t[0],ic:t[1],ar:t[2],fr:t[3],kw:t[4],hello:{b:['Parlons de ce sujet : '+t[3]+' !','لنتحدث عن '+t[2]+'!']},q:{b:t[5],m:t[5],a:t[5]}}}
+function tpl(r){return r.map(function(x){return x[0]?x:['','']})}
+/* ===== الواجهة ===== */
+function chips(){$('#lv').innerHTML=['b','m','a'].map(function(l){return '<button data-lv="'+l+'" class="'+(ST.lv===l?'on':'')+'">'+D.levels[l].ic+' '+D.levels[l].ar+'</button>'}).join('');
+ $('#tp').innerHTML='<button data-tp="*">🎲 فاجئني</button><button data-tp="joke">😂 نكتة</button><button data-tp="riddle">🧩 لغز</button><button data-tp="twist">🗣️ لسان معقود</button><button data-tp="wise">📜 حكمة</button>'+D.topics.map(function(t){return '<button data-tp="'+t.id+'" class="'+(S.tp&&S.tp.id===t.id?'on':'')+'">'+t.ic+' '+t.ar+'</button>'}).join('');
+ $('#tg').innerHTML='<button data-tg="voice" class="'+(ST.voice?'on':'')+'">🔊 الصوت</button><button data-tg="tr" class="'+(ST.tr?'on':'')+'">🇪🇬 الترجمة</button><button data-tg="slow" class="'+(ST.slow?'on':'')+'">🐢 بطيء</button><button data-tg="ai">⚙️ العقل الذكي</button>'}
+function scroll_(){var c=$('#chat');setTimeout(function(){c.scrollTop=c.scrollHeight},30)}
+function note(t){var d=document.createElement('div');d.className='t';d.textContent=t;$('#chat').appendChild(d);scroll_()}
+function addZ(parts,sug,cb){var fr=parts.map(function(p){return p.fr}).filter(Boolean).join(' '),ar=parts.map(function(p){return p.ar}).filter(Boolean).join(' '),d=document.createElement('div');d.className='m';
+ d.innerHTML='<div class="fr">'+esc(fr)+'</div>'+(ar?'<div class="ar" data-ar'+(ST.tr?'':' hidden')+'>'+esc(ar)+'</div>':'')+(fr?'<button data-say="'+esc(fr)+'">🔊</button>':'');
+ $('#chat').appendChild(d);scroll_();S.last={fr:fr,ar:ar};S.hist.push({role:'assistant',content:fr||ar});
+ sgs(sug);if(fr)speak(fr,cb);else if(cb)cb()}
+function addU(t){var d=document.createElement('div');d.className='m u';d.innerHTML='<div class="fr">'+esc(t)+'</div><div class="fb"></div>';$('#chat').appendChild(d);scroll_();return d.querySelector('.fb')}
+function sgs(l){$('#sg').innerHTML=(l||[]).slice(0,4).map(function(s){return '<button data-fill="'+esc(s)+'">'+esc(s)+'</button>'}).join('')}
+/* ===== تصحيح محلي مختصر ===== */
+var RU=[[/\bje suis (\d{1,2}) ans\b/gi,"j'ai $1 ans",'العمر يُقال بالفعل avoir: j’ai … ans.'],[/\bje suis (faim|soif|peur|sommeil)\b/gi,"j'ai $1",'مع faim وsoif وpeur نستعمل avoir.'],[/\bje (?=[aeiouéèêh])/gi,"j'",'je قبل حرف علة تصبح j’.'],[/(^|\s)à le\b/gi,'$1au','à + le = au'],[/\bde le\b/gi,'du','de + le = du'],[/\bca\b/g,'ça','تُكتب بسيدية: ça'],[/\bce est\b/gi,"c'est",'ce + est = c’est']];
+function fix(t){var c=t.replace(/[’‘`´]/g,"'"),is=[];RU.forEach(function(r){c=c.replace(r[0],function(){var m=arguments,n=r[1].replace(/\$(\d)/g,function(_,d){return m[+d]||''});is.push({wrong:m[0].trim(),right:n.trim(),why:r[2]});return n})});return is}
+function showFix(box,is){if(is.length)box.innerHTML='<div class="fx">✏️ <b>تصحيح:</b>'+is.map(function(i){return '<div><s dir="ltr">'+esc(i.wrong)+'</s> ← <u dir="ltr">'+esc(i.right)+'</u> — '+esc(i.why)+'</div>'}).join('')+'</div>'}
+/* ===== العقل المحلي ===== */
+var DAY=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],MON=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function P(a){return{fr:a[0],ar:a[1]}}
+function topicQ(){var t=S.tp;if(!t)return null;var l=(t.q[ST.lv]||t.q.b);if(S.qi>=l.length){S.tp=null;chips();return null}var q=l[S.qi++];return{parts:[{fr:q[0],ar:q[1]}],sug:q[2]||[]}}
+function setTopic(t){S.tp=t;S.qi=0;chips();var h=t.hello&&(t.hello[ST.lv]||t.hello.b);return h&&h[0]?P(h):{fr:'Parlons de ce sujet !',ar:'لنتحدث عن هذا الموضوع!'}}
+function surprise(){var l=D.topics.filter(function(t){return !S.tp||t.id!==S.tp.id});return pick(l)}
+function extract(t){var s=t.replace(/[’‘`´]/g,"'").toLowerCase(),m,o={};
+ if(m=s.match(/(?:je m'appelle|mon nom est|moi c'est)\s+([a-zà-ÿ'-]{2,20})/))o.name=m[1][0].toUpperCase()+m[1].slice(1);
+ if(m=s.match(/j'ai\s+(\d{1,2})\s+ans/))o.age=m[1];
+ if(m=s.match(/j'habite\s+(?:à|au|en|dans)\s+(?:la\s+|le\s+|l')?([a-zà-ÿ-]{2,24})/))o.city=m[1];
+ if(m=s.match(/(?:j'aime|j'adore|je préfère)\s+(?:le |la |les |l'|un |une |du |de la |des )?([a-zà-ÿ' -]{3,24})/))o.like=m[1].trim();return o}
+function follow(t){var s=t.replace(/[’‘`´]/g,"'").toLowerCase().replace(/[.!?]+$/,''),m;
+ if(m=s.match(/(?:j'adore|j'aime)\s+(.{3,30})/))return{fr:'Pourquoi aimes-tu '+m[1]+' ? Raconte-moi !',ar:'لماذا تحب ذلك؟ احكِ لي!'};
+ if(m=s.match(/(?:je n'aime pas|je déteste)\s+(.{3,30})/))return{fr:'Ah bon ? Qu’est-ce qui ne te plaît pas dans '+m[1]+' ?',ar:'حقًّا؟ ما الذي لا يعجبك في ذلك؟'};
+ if(m=s.match(/je suis (triste|fatigué|fatiguée|content|contente|heureux|heureuse|stressé|stressée|malade)/))return{fr:/triste|fatigu|stress|malade/.test(m[1])?'Oh, je suis désolée. Qu’est-ce qui se passe ?':'Génial ! Qu’est-ce qui te rend '+m[1]+' ?',ar:'ما السبب؟ أخبرني.'};
+ if(m=s.match(/(?:je voudrais|je veux|mon rêve)\s+(.{3,40})/))return{fr:'Quel beau projet ! Comment vas-tu y arriver ?',ar:'مشروع جميل! كيف ستحققه؟'};
+ if(m=s.match(/(?:parce que|car)\s+(.{3,})/))return{fr:'Ah, je comprends ton idée. Et qu’en penses-tu vraiment ?',ar:'فهمت فكرتك. وما رأيك حقًّا؟'};
+ return null}
+function special(t){var f=fold(t).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim(),n=new Date(),m;
+ if(S.riddle){var r=S.riddle;S.riddle=null;if(f.indexOf(r[2])>-1){ST.xp+=10;return{parts:[{fr:'Bravo ! C’était « '+r[2]+' ». Tu es très fort !',ar:'أحسنت! الإجابة صحيحة.'}]}}return{parts:[{fr:'Presque ! La réponse était : « '+r[2]+' ». On rejoue ?',ar:'تقريبًا! الإجابة: '+r[2]}]}}
+ if(/^(bonjour|salut|coucou|bonsoir|hello)\b/.test(f)&&f.split(' ').length<=4)return{parts:[{fr:'Bonjour'+(ST.f.name?' '+ST.f.name:'')+' ! Je suis contente de te voir. Comment ça va ?',ar:'مرحبًا! سعيدة برؤيتك. كيف حالك؟'}]};
+ if(/(comment (ca )?va|ca va\b|tu vas bien)/.test(f))return{parts:[{fr:'Je vais très bien, merci ! Et toi, comment te sens-tu aujourd’hui ?',ar:'بخير، شكرًا! وأنت كيف تشعر اليوم؟'}]};
+ if(/(comment tu t appelles|ton nom|qui es tu)/.test(f))return{parts:[{fr:'Je m’appelle Zoza ! Je suis ton amie et ta professeure de français.',ar:'اسمي زوزا! صديقتك ومعلّمتك للفرنسية.'}]};
+ if(/quelle heure/.test(f))return{parts:[{fr:'Il est '+n.getHours()+' heures '+n.getMinutes()+'.',ar:'الساعة الآن '+n.getHours()+':'+('0'+n.getMinutes()).slice(-2)}]};
+ if(/(quel jour|quelle date|on est quel)/.test(f))return{parts:[{fr:'Nous sommes '+DAY[n.getDay()]+' '+n.getDate()+' '+MON[n.getMonth()]+' '+n.getFullYear()+'.',ar:'التاريخ اليوم.'}]};
+ if(/blague|drole/.test(f))return{parts:[P(pick(D.jokes))],sug:['Ha ha !','Encore une !']};
+ if(/proverbe|dicton|sagesse/.test(f))return{parts:[P(pick(D.sayings))]};
+ if(/virelangue/.test(f))return{parts:[P(pick(D.twisters))],sug:['Répète lentement']};
+ if(/devinette|enigme/.test(f)){S.riddle=pick(RID);return{parts:[{fr:S.riddle[0],ar:S.riddle[1]}]}}
+ if(/^(merci)/.test(f))return{parts:[{fr:'De rien ! C’est un plaisir.',ar:'عفوًا! يسعدني ذلك.'}]};
+ if(/(au revoir|bonne nuit|a bientot|bye)/.test(f))return{parts:[{fr:'Au revoir ! À très bientôt, tu as très bien parlé aujourd’hui !',ar:'إلى اللقاء! أحسنت اليوم.'}]};
+ if(/(repete|plus lentement|je ne comprends pas)/.test(f)&&S.last){ST.slow=1;chips();return{parts:[{fr:S.last.fr,ar:'سأكرر ببطء: '+S.last.ar}]}}
+ if(m=f.match(/combien (?:font|fait) (\d+) (plus|moins|fois) (\d+)/)){var a=+m[1],b=+m[3],r=m[2]==='plus'?a+b:m[2]==='moins'?a-b:a*b;return{parts:[{fr:a+' '+m[2]+' '+b+', ça fait '+r+' !',ar:'الناتج '+r}]}}
+ return null}
+function localReply(t){var fc=extract(t),k;for(k in fc)ST.f[k]=fc[k];save();
+ var sp=special(t);if(sp)return sp;var f=fold(t),toks=f.split(/[^a-z]+/),best=null,bs=0;
+ D.topics.forEach(function(tp){var sc=tp.kw.filter(function(w){return toks.indexOf(w)>-1}).length;if(sc>bs){bs=sc;best=tp}});
+ var parts=[],sug=[];
+ if(best&&(!S.tp||S.tp.id!==best.id)){parts.push(P(pick(D.react.pos)));parts.push(setTopic(best))}
+ else{var neg=/(n'aime pas|deteste|triste|fatigue|difficile|ennuy)/.test(f),pos=/(j'aime|j'adore|super|genial|content|heureux)/.test(f);
+  parts.push(fc.name?{fr:'Enchantée, '+fc.name+' ! Quel joli prénom.',ar:'تشرفت بمعرفتك!'}:fc.age?{fr:fc.age+' ans, c’est un bel âge !',ar:'سنّ جميلة!'}:P(pick(f.split(/\s+/).length>=7?D.react.long:neg&&!pos?D.react.neg:pos?D.react.pos:D.react.neu)));
+  var fl=follow(t);if(fl&&S.turns%2===0){parts.push(fl);return{parts:parts,sug:['Parce que…','Je ne sais pas.']}}}
+ if(ST.f.name&&S.turns%5===4&&ST.f.like)parts.push({fr:'Au fait '+ST.f.name+', tu m’as dit que tu aimes '+ST.f.like+'. Dis-m’en plus !',ar:'ذكرتَ أنك تحب ذلك. أخبرني المزيد!'});
+ else{var q=topicQ();if(!q){var nt=surprise();parts.push({fr:'Changeons de sujet !',ar:'لنغيّر الموضوع!'});parts.push(setTopic(nt));q=topicQ()}if(q){parts=parts.concat(q.parts);sug=q.sug}}
+ return{parts:parts,sug:sug}}
+/* ===== الذكاء الاصطناعي (اختياري) ===== */
+function url(){return window.ZOZA_AI_URL||AI_URL||ST.ai||''}
+function askAI(t){var c=window.AbortController?new AbortController():null,to=setTimeout(function(){c&&c.abort()},15000);
+ return fetch(url(),{method:'POST',headers:{'Content-Type':'application/json'},signal:c?c.signal:undefined,body:JSON.stringify({message:t,history:S.hist.slice(-20),level:ST.lv,topic:S.tp?S.tp.fr:'',name:ST.f.name||'',facts:ST.f})}).then(function(r){clearTimeout(to);if(!r.ok)throw 0;return r.json()})}
+/* ===== معالجة الرسالة ===== */
+function done(){busy=0;if(ST.hands)setTimeout(listen,250);else setState('idle')}
+function handle(t){t=String(t||'').trim();if(!t||busy)return;busy=1;try{rec&&rec.abort()}catch(e){}stopSpeak();
+ var box=addU(t);S.hist.push({role:'user',content:t});S.turns++;ST.xp+=3;save();
+ if(!isAr(t))showFix(box,fix(t));setState('think');A.tb=-5;$('#cap').textContent='';
+ var out=function(r){setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
+ if(url())askAI(t).then(function(r){var parts=[{fr:r.reply_fr||'',ar:r.reply_ar||''}];if(r.tip_ar)parts.push({fr:'',ar:'💡 '+r.tip_ar});
+   if((r.corrections||[]).length)box.innerHTML='<div class="fx">✏️ <b>ملاحظات زوزا:</b>'+r.corrections.map(function(c){return '<div><s dir="ltr">'+esc(c.wrong)+'</s> ← <u dir="ltr">'+esc(c.right)+'</u> — '+esc(c.why_ar||'')+'</div>'}).join('')+'</div>';
+   out({parts:parts,sug:r.suggestions_fr})}).catch(function(){out(localReply(t))});
+ else out(localReply(t))}
+function startTopic(id){var r;busy=1;stopSpeak();try{rec&&rec.abort()}catch(e){}
+ if(id==='*'){r=setTopic(surprise());var q=topicQ();addZ([r].concat(q?q.parts:[]),q?q.sug:[],done);return}
+ if(id==='joke'){addZ([P(pick(D.jokes))],['Ha ha !','Encore une !'],done);return}
+ if(id==='wise'){addZ([P(pick(D.sayings))],['C’est joli !'],done);return}
+ if(id==='twist'){addZ([P(pick(D.twisters)),{fr:'',ar:'جرّب أن تكررها بصوتك!'}],['Je répète !'],done);return}
+ if(id==='riddle'){S.riddle=pick(RID);addZ([{fr:S.riddle[0],ar:S.riddle[1]}],[],done);return}
+ var t=D.topics.filter(function(x){return x.id===id})[0];r=setTopic(t);var q2=topicQ();addZ([r].concat(q2.parts),q2.sug,done)}
+$('#snd').onclick=function(){var v=$('#ip').value;$('#ip').value='';handle(v)};
+$('#ip').onkeydown=function(e){if(e.key==='Enter'){var v=this.value;this.value='';handle(v)}};
+document.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;var d=x.dataset;
+ if(d.lv){ST.lv=d.lv;save();chips()}else if(d.tp)startTopic(d.tp);else if(d.say){busy=1;speak(d.say,done)}
+ else if(d.fill){handle(d.fill)}
+ else if(d.tg==='ai'){var v=prompt('ألصق رابط zoza-worker (https://…) أو اتركه فارغًا للوضع المحلي:',ST.ai||'');if(v!==null){ST.ai=v.trim();save();note(ST.ai?'تم تفعيل العقل الذكي ✅':'الوضع المحلي')}}
+ else if(d.tg){ST[d.tg]=ST[d.tg]?0:1;save();chips();if(d.tg==='tr')document.querySelectorAll('[data-ar]').forEach(function(a){a.hidden=!ST.tr});if(d.tg==='voice'&&!ST.voice)stopSpeak()}});
+/* ===== الإقلاع ===== */
+function ready(){D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');
+ var n=ST.f.name;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})}
+busy=1;fetch('data/talk.json').then(function(r){return r.json()}).then(function(j){D.levels=j.levels?Object.keys(j.levels).reduce(function(o,k){o[k]=j.levels[k];return o},{}):D.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){}).then(ready);
+})();
+</script></body></html>
