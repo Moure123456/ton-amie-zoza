@@ -61,6 +61,7 @@ main{width:100%}
  :root{--fh:clamp(200px,46dvh,420px)}}
 @media (orientation:landscape) and (max-height:520px){:root{--fh:clamp(110px,52dvh,230px)}#chat{height:calc(100dvh - 130px)}.cav{display:none}}
 @media (min-width:1500px){main{max-width:1360px}html{font-size:17px}}
+.nm{position:relative;width:min(330px,86vw);padding:12px 16px;border-radius:26px;border:2px solid rgba(253,230,138,.75);background:rgba(255,255,255,.96);font:700 1rem Cairo,Tahoma,sans-serif;text-align:center;color:#4c1d95;outline:0}.nl{position:relative;font-size:.85rem;font-weight:700;color:#fde68a;margin:0}
 </style></head><body>
 <div id="cover"><div class="sk"></div>
 <img class="cav" src="assets/zoza.jpg" alt="Zoza" onerror="this.style.display='none'">
@@ -68,6 +69,7 @@ main{width:100%}
 <p class="cs">صديقة ذكية بوجه حيّ تتحدث معك بالفرنسية بصوتها، تفهم كلامك وترد عليك وتصحح أخطاءك بلطف، لتتعلم وأنت تتحدث وتستمتع.</p>
 <div class="cf"><span>🎙️ حوار صوتي حرّ</span><span>🧠 ذكاء يفهمك ويتذكرك</span><span>🎭 مواضيع متنوعة وألعاب</span><span>✏️ تصحيح فوري بالعربية</span></div>
 <div class="dev"><small>✦ تطوير وإعداد ✦</small><div class="dn">مسيو/ محمود أبوبكر السويدى</div></div>
+<p class="nl">👤 ما اسمك؟ ستناديك زوزا به (اكتبه بحروف لاتينية لينطق جيدًا)</p><input class="nm" id="nm" maxlength="20" autocomplete="given-name" placeholder="Ahmed">
 <button class="go" id="cgo">✨ ابدأ الحوار مع زوزا</button>
 <p class="cr">© جميع حقوق النشر والتوزيع محفوظة لمنشئ المحتوى<br><b>مسيو/ محمود أبوبكر السويدى</b></p></div>
 <div id="lock"><div><h3 style="text-align:center;margin:0 0 12px">تسجيل الدخول</h3><label>اسم المستخدم</label><input id="u"><label>الرقم السري</label><input id="p" type="password"><button class="big" id="go">دخول</button><p id="er" style="color:#dc3545;display:none;text-align:center">بيانات غير صحيحة</p></div></div>
@@ -89,7 +91,7 @@ main{width:100%}
 <script>
 (function(){'use strict';
 var AI_URL=''; /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
-var $=function(s){return document.querySelector(s)},pick=function(a){return a[Math.random()*a.length|0]};
+var $=function(s){return document.querySelector(s)},pk=new WeakMap(),pick=function(a){var u=pk.get(a);if(!u){u=[];pk.set(a,u)}if(u.length>=a.length)u.length=0;var i,n=0;do{i=Math.random()*a.length|0;n++}while(u.indexOf(i)>-1&&n<40);u.push(i);return a[i]};
 var ST=(function(){try{return JSON.parse(localStorage.getItem('zz2'))}catch(e){}})()||{};
 ST=Object.assign({lv:'b',voice:1,tr:1,hands:0,xp:0,ai:'',f:{}},ST);
 function save(){try{localStorage.setItem('zz2',JSON.stringify(ST))}catch(e){}}
@@ -97,7 +99,8 @@ var fold=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[\
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 var isAr=function(s){return /[\u0600-\u06FF]/.test(s)&&!/[a-zA-Z]{3,}/.test(s)};
 /* ===== الغلاف ===== */
-$('#cgo').onclick=function(){var c=$('#cover');c.classList.add('out');setTimeout(function(){c.style.display='none'},750);window.zGo=1;if(window.zStart)window.zStart()};
+if(ST.f.name)$('#nm').value=ST.f.name;
+$('#cgo').onclick=function(){var v=($('#nm').value||'').trim();if(v){ST.f.name=v.charAt(0).toUpperCase()+v.slice(1);save()}var c=$('#cover');c.classList.add('out');setTimeout(function(){c.style.display='none'},750);window.zGo=1;if(window.zStart)window.zStart()};
 /* ===== قفل الدخول ===== */
 function unlock(){$('#lock').style.display='none';try{sessionStorage.setItem('zzauth','1')}catch(e){}}
 $('#go').onclick=function(){if($('#u').value==='admin'&&$('#p').value==='000519')unlock();else $('#er').style.display='block'};
@@ -184,7 +187,7 @@ function tpl(r){return r.map(function(x){return x[0]?x:['','']})}
 /* ===== الواجهة ===== */
 function chips(){$('#lv').innerHTML=['b','m','a'].map(function(l){return '<button data-lv="'+l+'" class="'+(ST.lv===l?'on':'')+'">'+D.levels[l].ic+' '+D.levels[l].ar+'</button>'}).join('');
  $('#tp').innerHTML='<button data-tp="*">🎲 فاجئني</button><button data-tp="joke">😂 نكتة</button><button data-tp="riddle">🧩 لغز</button><button data-tp="twist">🗣️ لسان معقود</button><button data-tp="wise">📜 حكمة</button>'+D.topics.map(function(t){return '<button data-tp="'+t.id+'" class="'+(S.tp&&S.tp.id===t.id?'on':'')+'">'+t.ic+' '+t.ar+'</button>'}).join('');
- $('#tg').innerHTML='<button data-tg="voice" class="'+(ST.voice?'on':'')+'">🔊 الصوت</button><button data-tg="tr" class="'+(ST.tr?'on':'')+'">🇪🇬 الترجمة</button><button data-tg="slow" class="'+(ST.slow?'on':'')+'">🐢 بطيء</button><button data-tg="ai">⚙️ العقل الذكي</button>'}
+ $('#tg').innerHTML='<button data-tg="voice" class="'+(ST.voice?'on':'')+'">🔊 الصوت</button><button data-tg="tr" class="'+(ST.tr?'on':'')+'">🇪🇬 الترجمة</button><button data-tg="slow" class="'+(ST.slow?'on':'')+'">🐢 بطيء</button><button data-tg="name">👤 اسمي</button><button data-tg="ai">⚙️ العقل الذكي</button>'}
 function scroll_(){var c=$('#chat');setTimeout(function(){c.scrollTop=c.scrollHeight},30)}
 function note(t){var d=document.createElement('div');d.className='t';d.textContent=t;$('#chat').appendChild(d);scroll_()}
 function addZ(parts,sug,cb){var fr=parts.map(function(p){return p.fr}).filter(Boolean).join(' '),ar=parts.map(function(p){return p.ar}).filter(Boolean).join(' '),d=document.createElement('div');d.className='m';
@@ -231,8 +234,39 @@ function special(t){var f=fold(t).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ')
  if(/(repete|plus lentement|je ne comprends pas)/.test(f)&&S.last){ST.slow=1;chips();return{parts:[{fr:S.last.fr,ar:'سأكرر ببطء: '+S.last.ar}]}}
  if(m=f.match(/combien (?:font|fait) (\d+) (plus|moins|fois) (\d+)/)){var a=+m[1],b=+m[3],r=m[2]==='plus'?a+b:m[2]==='moins'?a-b:a*b;return{parts:[{fr:a+' '+m[2]+' '+b+', ça fait '+r+' !',ar:'الناتج '+r}]}}
  return null}
+
+/* ===== أسئلة المتعلم: زوزا تجيب أولًا ثم تسأل ===== */
+var KB=[[/capitale.*france/,'La capitale de la France, c’est Paris. On l’appelle la ville lumière.','عاصمة فرنسا باريس، وتُلقَّب بمدينة النور.'],
+[/capitale.*egypte|le caire/,'La capitale de l’Égypte, c’est Le Caire. C’est une très grande ville au bord du Nil.','عاصمة مصر القاهرة، مدينة كبيرة على ضفاف النيل.'],
+[/pyramide/,'Les pyramides de Gizeh sont des tombeaux de pharaons. Elles ont plus de quatre mille cinq cents ans.','أهرامات الجيزة مقابر للفراعنة، عمرها أكثر من 4500 سنة.'],
+[/\bnil\b/,'Le Nil est un très long fleuve d’Afrique. Il traverse l’Égypte du sud au nord.','النيل نهر طويل جدًّا في أفريقيا، يعبر مصر من الجنوب إلى الشمال.'],
+[/eiffel/,'La tour Eiffel est à Paris. Elle a été construite en 1889 et elle mesure environ trois cent trente mètres.','برج إيفل في باريس، بُني سنة 1889 وارتفاعه نحو 330 مترًا.'],
+[/\blune\b/,'La Lune tourne autour de la Terre. Elle est à environ trois cent quatre-vingt mille kilomètres.','القمر يدور حول الأرض ويبعد نحو 384 ألف كيلومتر.'],
+[/soleil/,'Le Soleil est une étoile. Il nous donne la lumière et la chaleur.','الشمس نجم يمنحنا الضوء والدفء.'],
+[/combien.*planete/,'Il y a huit planètes dans notre système solaire.','في نظامنا الشمسي ثمانية كواكب.'],
+[/ciel.*bleu/,'Le ciel est bleu parce que l’air disperse la lumière bleue du Soleil plus que les autres couleurs.','السماء زرقاء لأن الهواء يشتّت الضوء الأزرق للشمس أكثر من باقي الألوان.'],
+[/combien.*jours.*(an|annee)/,'Une année a trois cent soixante-cinq jours, et parfois trois cent soixante-six.','السنة 365 يومًا، وأحيانًا 366.'],
+[/qui t a (cree|fait)|createur|qui a cree/,'C’est monsieur Mahmoud Aboubakr Al-Suwaidi qui m’a créée pour t’aider à parler français.','أنشأني مسيو محمود أبوبكر السويدى لأساعدك على تعلّم الفرنسية.'],
+[/quel age|ton age/,'Je suis un robot, donc je n’ai pas d’âge. Mais je suis toujours jeune dans mon cœur !','أنا روبوت فلا عمر لي، لكنني شابة دائمًا!'],
+[/(parle|parlent).*francais|francais.*(parle|parlent)|combien.*francophone/,'Plus de trois cents millions de personnes parlent français dans le monde, sur cinq continents.','أكثر من 300 مليون شخص يتحدثون الفرنسية في العالم.'],
+[/(comment|conseil|astuce).*(apprendre|parler|ameliorer|progresser)/,'Écoute du français chaque jour, parle à voix haute, lis des histoires courtes et n’aie pas peur de faire des erreurs !','استمع للفرنسية يوميًا، وتحدّث بصوت عالٍ، واقرأ قصصًا قصيرة، ولا تخف من الأخطاء!'],
+[/(conjugu|conjugaison).*etre|verbe etre/,'Le verbe être : je suis, tu es, il est, nous sommes, vous êtes, ils sont.','فعل être: je suis, tu es, il est, nous sommes, vous êtes, ils sont.'],
+[/(conjugu|conjugaison).*avoir|verbe avoir/,'Le verbe avoir : j’ai, tu as, il a, nous avons, vous avez, ils ont.','فعل avoir: j’ai, tu as, il a, nous avons, vous avez, ils ont.'],
+[/difference.*(tu|vous)|tu ou vous/,'« Tu » est pour un ami ou un enfant. « Vous » est poli, ou pour plusieurs personnes.','tu للصديق أو الطفل، وvous للاحترام أو للجمع.'],
+[/pain|croissant|fromage|baguette/,'En France, on mange beaucoup de pain, de croissants et de fromages. Il y a plus de mille sortes de fromages !','في فرنسا يأكلون الخبز والكرواسون والجبن، وهناك أكثر من ألف نوع من الجبن!'],
+[/football|\bfoot\b|salah/,'Le football est très populaire en France et en Égypte. Mohamed Salah est un grand joueur égyptien.','كرة القدم محبوبة في فرنسا ومصر، ومحمد صلاح لاعب مصري كبير.']];
+var FU=[['Et toi, qu’en penses-tu ?','وأنت، ما رأيك؟'],['Tu connaissais déjà ça ?','هل كنت تعرف ذلك؟'],['Tu veux savoir autre chose ?','هل تريد أن تعرف شيئًا آخر؟']];
+var PE=[['Moi, j’adore discuter avec toi et apprendre des choses nouvelles !','أنا أحب الحديث معك وتعلّم أشياء جديدة!'],['Bonne question ! Moi, je suis toujours de bonne humeur.','سؤال جيد! أنا دائمًا في مزاج رائع.']];
+function isQ(t,f){return /\?\s*$/.test(t)||/^(qu'est|est-ce|comment|pourquoi|quand|ou |qui |quel|combien|c'est quoi|que |quoi|et toi)/.test(f)||/^(ما|ماذا|لماذا|كيف|هل|من |متى|أين|كم)/.test(t.trim())}
+var UQ=[['Bonne question ! Je ne suis pas sûre de la réponse exacte.','سؤال جيد! لست متأكدة من الإجابة الدقيقة.'],['Hmm, c’est une question difficile pour moi !','سؤال صعب عليّ!'],['Je ne connais pas bien la réponse, désolée.','لا أعرف الإجابة جيدًا، آسفة.'],['Oh là là, tu me poses une vraie colle !','سؤال محيّر فعلًا!']];
+function answer(t,f){if(!isQ(t,f))return null;var i;
+ for(i=0;i<KB.length;i++)if(KB[i][0].test(f))return{parts:[{fr:KB[i][1],ar:KB[i][2]}]};
+ if(isAr(t))return{parts:[{fr:'J’ai compris que tu as une question ! Essaie de la poser en français, même avec des mots simples.',ar:'حاول صياغة سؤالك بالفرنسية ولو ببساطة، وسأساعدك.'}]};
+ if(/\btu\b|\btoi\b|\bton\b|\bta\b|\btes\b/.test(f))return{parts:[P(pick(PE))]};
+ var r={parts:[P(pick(UQ))]};if(!S.hinted){S.hinted=1;r.parts.push({fr:'',ar:'💡 للإجابة عن أي سؤال بحرّية فعّل زر ⚙️ العقل الذكي.'})}return r}
 function localReply(t){var fc=extract(t),k;for(k in fc)ST.f[k]=fc[k];save();
  var sp=special(t);if(sp)return sp;var f=fold(t),toks=f.split(/[^a-z]+/),best=null,bs=0;
+ var an=answer(t,f);if(an){var q0=topicQ();if(!q0){var nt0=surprise();an.parts.push(setTopic(nt0));q0=topicQ()}if(q0){an.parts=an.parts.concat(q0.parts);an.sug=q0.sug}return an}
  D.topics.forEach(function(tp){var sc=tp.kw.filter(function(w){return toks.indexOf(w)>-1}).length;if(sc>bs){bs=sc;best=tp}});
  var parts=[],sug=[];
  if(best&&(!S.tp||S.tp.id!==best.id)){parts.push(P(pick(D.react.pos)));parts.push(setTopic(best))}
@@ -251,7 +285,7 @@ function done(){busy=0;if(ST.hands)setTimeout(listen,250);else setState('idle')}
 function handle(t){t=String(t||'').trim();if(!t||busy)return;busy=1;try{rec&&rec.abort()}catch(e){}stopSpeak();
  var box=addU(t);S.hist.push({role:'user',content:t});S.turns++;ST.xp+=3;save();
  if(!isAr(t))showFix(box,fix(t));setState('think');A.tb=-5;$('#cap').textContent='';
- var out=function(r){setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
+ var out=function(r){if(!url()&&ST.f.name&&S.turns%3===1&&r.parts&&r.parts[0]&&r.parts[0].fr){var q0=r.parts[0];r.parts[0]={fr:ST.f.name+', '+q0.fr.charAt(0).toLowerCase()+q0.fr.slice(1),ar:q0.ar}}setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
  if(url())askAI(t).then(function(r){var parts=[{fr:r.reply_fr||'',ar:r.reply_ar||''}];if(r.tip_ar)parts.push({fr:'',ar:'💡 '+r.tip_ar});
    if((r.corrections||[]).length)box.innerHTML='<div class="fx">✏️ <b>ملاحظات زوزا:</b>'+r.corrections.map(function(c){return '<div><s dir="ltr">'+esc(c.wrong)+'</s> ← <u dir="ltr">'+esc(c.right)+'</u> — '+esc(c.why_ar||'')+'</div>'}).join('')+'</div>';
    out({parts:parts,sug:r.suggestions_fr})}).catch(function(){out(localReply(t))});
@@ -268,11 +302,13 @@ $('#ip').onkeydown=function(e){if(e.key==='Enter'){var v=this.value;this.value='
 document.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;var d=x.dataset;
  if(d.lv){ST.lv=d.lv;save();chips()}else if(d.tp)startTopic(d.tp);else if(d.say){busy=1;speak(d.say,done)}
  else if(d.fill){handle(d.fill)}
+ else if(d.tg==='name'){var nv=prompt('ما اسمك؟ (يُفضّل بحروف لاتينية)',ST.f.name||'');if(nv&&nv.trim()){ST.f.name=nv.trim().charAt(0).toUpperCase()+nv.trim().slice(1);save();note('جميل! ستناديك زوزا: '+ST.f.name)}}
  else if(d.tg==='ai'){var v=prompt('ألصق رابط zoza-worker (https://…) أو اتركه فارغًا للوضع المحلي:',ST.ai||'');if(v!==null){ST.ai=v.trim();save();note(ST.ai?'تم تفعيل العقل الذكي ✅':'الوضع المحلي')}}
  else if(d.tg){ST[d.tg]=ST[d.tg]?0:1;save();chips();if(d.tg==='tr')document.querySelectorAll('[data-ar]').forEach(function(a){a.hidden=!ST.tr});if(d.tg==='voice'&&!ST.voice)stopSpeak()}});
 /* ===== الإقلاع ===== */
-function ready(){D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');
- var n=ST.f.name;window.zStart=function(){if(window.zDone)return;window.zDone=1;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})};if(window.zGo)window.zStart()}
+var MR={pos:[['Magnifique !','رائع!'],['Quelle belle réponse !','إجابة جميلة!'],['Bravo, continue comme ça !','أحسنت، استمر!'],['Excellent, ton français progresse !','ممتاز، فرنسيتك تتحسن!']],neg:[['Oh, c’est dommage.','يا للأسف.'],['Je suis là pour toi.','أنا هنا بجانبك.'],['Pas de souci, ça arrive.','لا بأس، هذا يحدث.']],neu:[['Ah, d’accord !','آه، حسنًا!'],['C’est vrai ?','حقًّا؟'],['Je ne savais pas !','لم أكن أعلم!'],['Hmm, intéressant.','همم، مثير.'],['Ça alors !','يا للعجب!'],['D’accord, je note !','حسنًا، سأتذكر ذلك!']],long:[['Wow, quelle belle phrase !','يا لها من جملة جميلة!'],['Tu parles de mieux en mieux !','تتحدث أفضل فأفضل!']]};
+function ready(){['pos','neg','neu','long'].forEach(function(k){D.react[k]=(D.react[k]||[]).concat(MR[k])});D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');
+ window.zStart=function(){if(window.zDone)return;window.zDone=1;var n=ST.f.name;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})};if(window.zGo)window.zStart()}
 busy=1;fetch('data/talk.json').then(function(r){return r.json()}).then(function(j){D.levels=j.levels?Object.keys(j.levels).reduce(function(o,k){o[k]=j.levels[k];return o},{}):D.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){}).then(ready);
 })();
 </script></body></html>
