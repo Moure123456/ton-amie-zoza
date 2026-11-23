@@ -322,6 +322,6 @@ var MR={pos:[['Wonderful!','رائع!'],['What a great answer!','إجابة جم
 function ready(){['pos','neg','neu','long'].forEach(function(k){D.react[k]=(D.react[k]||[]).concat(MR[k])});D.topics=D.topics.concat(X.map(norm));
  ['b','m','a'].forEach(function(l){if(D.levels[l]&&D.levels[l].rate)RATE[l]=D.levels[l].rate});chips();mic();setState('idle');
  window.zStart=function(){if(window.zDone)return;window.zDone=1;var n=ST.f.name;addZ([{en:'Hello'+(n?' '+n:'')+'! I’m Zoza, your friend. Tap the mic and let’s speak English together!',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالإنجليزية معًا!'}],['Hello Zoza!','My name is …'],function(){busy=0;if(ST.hands)listen()})};if(window.zGo)window.zStart()}
-busy=1;fetch('data/talk.json').then(function(r){return r.json()}).then(function(j){if(j.levels)D.levels=j.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){}).then(ready);
+busy=1;var badTalk=0;fetch('data/talk.json?v=3',{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){if(j.lang!=='en'){badTalk=1;return}if(j.levels)D.levels=j.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){badTalk=1}).then(function(){ready();if(badTalk)note('⚠️ ملف data/talk.json غير موجود أو قديم (فرنسي). استبدله بالنسخة الإنجليزية ليظهر كل المحتوى.')});
 })();
 </script></body></html>
