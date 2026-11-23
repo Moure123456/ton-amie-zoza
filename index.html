@@ -62,6 +62,11 @@ main{width:100%}
 @media (orientation:landscape) and (max-height:520px){:root{--fh:clamp(110px,52dvh,230px)}#chat{height:calc(100dvh - 130px)}.cav{display:none}}
 @media (min-width:1500px){main{max-width:1360px}html{font-size:17px}}
 .nm{position:relative;width:min(330px,86vw);padding:12px 16px;border-radius:26px;border:2px solid rgba(253,230,138,.75);background:rgba(255,255,255,.96);font:700 1rem Cairo,Tahoma,sans-serif;text-align:center;color:#4c1d95;outline:0}.nl{position:relative;font-size:.85rem;font-weight:700;color:#fde68a;margin:0}
+.nh{position:relative;margin:0;font-size:.85rem;font-weight:800;color:#fecaca}
+.nm.err{border-color:#f87171;animation:pu .4s 2}
+.nmrow{display:flex;gap:6px;align-items:center;margin-bottom:8px}.nmrow span{font-size:1.2rem}
+#nm2{flex:1;min-width:0;padding:9px 12px;border:2px solid #e9d5ff;border-radius:14px;font-size:1rem;font-family:inherit;direction:ltr;outline:0}#nm2:focus{border-color:#7c3aed}
+#nmb{border:0;background:#7c3aed;color:#fff;border-radius:14px;padding:10px 14px;font-weight:800}
 </style></head><body>
 <div id="cover"><div class="sk"></div>
 <img class="cav" src="assets/zoza.jpg" alt="Zoza" onerror="this.style.display='none'">
@@ -69,7 +74,7 @@ main{width:100%}
 <p class="cs">صديقة ذكية بوجه حيّ تتحدث معك بالفرنسية بصوتها، تفهم كلامك وترد عليك وتصحح أخطاءك بلطف، لتتعلم وأنت تتحدث وتستمتع.</p>
 <div class="cf"><span>🎙️ حوار صوتي حرّ</span><span>🧠 ذكاء يفهمك ويتذكرك</span><span>🎭 مواضيع متنوعة وألعاب</span><span>✏️ تصحيح فوري بالعربية</span></div>
 <div class="dev"><small>✦ تطوير وإعداد ✦</small><div class="dn">مسيو/ محمود أبوبكر السويدى</div></div>
-<p class="nl">👤 ما اسمك؟ ستناديك زوزا به (اكتبه بحروف لاتينية لينطق جيدًا)</p><input class="nm" id="nm" maxlength="20" autocomplete="given-name" placeholder="Ahmed">
+<p class="nl">👤 اكتب اسمك لتناديك زوزا به (بالعربية أو الفرنسية)</p><input class="nm" id="nm" maxlength="20" autocomplete="given-name" placeholder="Ton prénom — اسمك"><p class="nh" id="nh" hidden>⚠️ اكتب اسمك أولًا ثم اضغط ابدأ</p>
 <button class="go" id="cgo">✨ ابدأ الحوار مع زوزا</button>
 <p class="cr">© جميع حقوق النشر والتوزيع محفوظة لمنشئ المحتوى<br><b>مسيو/ محمود أبوبكر السويدى</b></p></div>
 <div id="lock"><div><h3 style="text-align:center;margin:0 0 12px">تسجيل الدخول</h3><label>اسم المستخدم</label><input id="u"><label>الرقم السري</label><input id="p" type="password"><button class="big" id="go">دخول</button><p id="er" style="color:#dc3545;display:none;text-align:center">بيانات غير صحيحة</p></div></div>
@@ -79,18 +84,19 @@ main{width:100%}
 <defs><filter id="fz" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
 <linearGradient id="fk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e4f3f9"/><stop offset=".5" stop-color="#d9e6ec"/><stop offset="1" stop-color="#b6c8d0"/></linearGradient>
 <clipPath id="cm"><path id="cmp"/></clipPath></defs>
-<ellipse id="lA" cx="200" cy="148" rx="31" ry="0" fill="#04101c" filter="url(#fz)"/><ellipse id="lB" cx="315" cy="148" rx="31" ry="0" fill="#04101c" filter="url(#fz)"/>
-<rect x="194" y="220" width="124" height="76" rx="34" fill="url(#fk)" filter="url(#fz)"/>
+<ellipse id="lA" cx="215" cy="157" rx="33" ry="0" fill="#04101c" filter="url(#fz)"/><ellipse id="lB" cx="335" cy="164" rx="33" ry="0" fill="#04101c" filter="url(#fz)"/>
+<rect x="210" y="234" width="124" height="70" rx="32" fill="url(#fk)" filter="url(#fz)"/>
 <path id="mt" fill="#12080f"/><g clip-path="url(#cm)"><path id="tt" fill="#f6f9fb"/><ellipse id="tg" fill="#e0566a"/></g></svg></div>
 <div id="stt">✨ جاهزة</div><div id="cap"></div></section>
-<div class="card"><div class="row" id="lv"></div><div class="row" id="tp"></div><div class="row tg" id="tg"></div></div>
+<div class="card"><div class="nmrow"><span>👤</span><input id="nm2" maxlength="20" autocomplete="given-name" placeholder="Ton prénom — اكتب اسمك هنا"><button id="nmb">حفظ</button></div><div class="row" id="lv"></div><div class="row" id="tp"></div><div class="row tg" id="tg"></div></div>
 <div id="chat"></div><div id="sg"></div>
 <div id="in"><button class="rd" id="mic" title="محادثة صوتية حرّة">🎙️</button><input id="ip" autocomplete="off" placeholder="اكتب بالفرنسية… أو اضغط 🎙️ وتحدّث"><button class="rd" id="snd" style="width:46px;height:46px;font-size:1.1rem">➤</button></div>
 <p class="t">اضغط 🎙️ مرة واحدة لبدء حوار صوتي متواصل بلا لمس — زوزا تستمع، تفكر، ثم تردّ بصوتها.</p>
 </main><footer>© جميع حقوق النشر والتوزيع محفوظة لمنشئ المحتوى — مسيو/ محمود أبوبكر السويدى</footer>
 <script>
 (function(){'use strict';
-var AI_URL=''; /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
+var AI_URL='';
+var LOGIN_USER='adam',LOGIN_PASS='57634'; /* غيّرهما كما تشاء (ملاحظة: ظاهران في كود الصفحة) */ /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
 var $=function(s){return document.querySelector(s)},pk=new WeakMap(),pick=function(a){var u=pk.get(a);if(!u){u=[];pk.set(a,u)}if(u.length>=a.length)u.length=0;var i,n=0;do{i=Math.random()*a.length|0;n++}while(u.indexOf(i)>-1&&n<40);u.push(i);return a[i]};
 var ST=(function(){try{return JSON.parse(localStorage.getItem('zz2'))}catch(e){}})()||{};
 ST=Object.assign({lv:'b',voice:1,tr:1,hands:0,xp:0,ai:'',f:{}},ST);
@@ -98,12 +104,22 @@ function save(){try{localStorage.setItem('zz2',JSON.stringify(ST))}catch(e){}}
 var fold=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’‘`´]/g,"'")};
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
 var isAr=function(s){return /[\u0600-\u06FF]/.test(s)&&!/[a-zA-Z]{3,}/.test(s)};
+var cap1=function(s){s=String(s).trim();return s.charAt(0).toUpperCase()+s.slice(1)};
+/* اسم الطالب: يقبل العربية ويحوّلها لحروف لاتينية لتنطقه زوزا جيدًا */
+var AN={احمد:'Ahmed',محمد:'Mohamed',محمود:'Mahmoud',علي:'Ali',عمر:'Omar',حسن:'Hassan',حسين:'Hussein',يوسف:'Youssef',مصطفي:'Mostafa',كريم:'Karim',ابراهيم:'Ibrahim',خالد:'Khaled',ساره:'Sara',مريم:'Mariam',فاطمه:'Fatma',نور:'Nour',مني:'Mona',هدي:'Huda',ياسمين:'Yasmin',ايه:'Aya',ندي:'Nada',سلمي:'Salma',رنا:'Rana',دينا:'Dina',اسلام:'Islam',عبدالله:'Abdullah',طارق:'Tarek',زياد:'Ziad',امير:'Amir',ادم:'Adam',ليلي:'Layla',نادين:'Nadine',ملك:'Malak',ريم:'Reem',هاجر:'Hagar',اسماء:'Asmaa',شهد:'Shahd',حبيبه:'Habiba',يارا:'Yara',جني:'Jana',عمار:'Ammar',بلال:'Belal',ماجد:'Maged',سعيد:'Said',رامي:'Ramy',وليد:'Walid',هشام:'Hisham',تامر:'Tamer',نبيل:'Nabil'},
+ AL={ا:'a',ب:'b',ت:'t',ث:'th',ج:'g',ح:'h',خ:'kh',د:'d',ذ:'z',ر:'r',ز:'z',س:'s',ش:'sh',ص:'s',ض:'d',ط:'t',ظ:'z',ع:'a',غ:'gh',ف:'f',ق:'q',ك:'k',ل:'l',م:'m',ن:'n',ه:'h',و:'o',ي:'y',ء:'',ئ:'e',ؤ:'o'};
+function toLatin(s){s=String(s||'').replace(/[^\u0600-\u06FFa-zA-Z' -]/g,'').trim();if(!/[\u0600-\u06FF]/.test(s))return cap1(s);
+ var n=s.replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+ if(AN[n])return AN[n];var o='';for(var i=0;i<n.length;i++){var c=n.charAt(i);o+=AL[c]!==undefined?AL[c]:c}return cap1(o)}
+function syncName(){var v=ST.f.name||'';if($('#nm2'))$('#nm2').value=v;if($('#nm'))$('#nm').value=v}
+function setName(v){v=toLatin(v);if(!v)return false;ST.f.name=v;save();syncName();return true}
 /* ===== الغلاف ===== */
-if(ST.f.name)$('#nm').value=ST.f.name;
-$('#cgo').onclick=function(){var v=($('#nm').value||'').trim();if(v){ST.f.name=v.charAt(0).toUpperCase()+v.slice(1);save()}var c=$('#cover');c.classList.add('out');setTimeout(function(){c.style.display='none'},750);window.zGo=1;if(window.zStart)window.zStart()};
+syncName();
+$('#nm').oninput=function(){$('#nh').hidden=true;this.classList.remove('err')};
+$('#cgo').onclick=function(){var v=($('#nm').value||'').trim();if(!v||!setName(v)){$('#nh').hidden=false;$('#nm').classList.add('err');$('#nm').focus();return}var c=$('#cover');c.classList.add('out');setTimeout(function(){c.style.display='none'},750);window.zGo=1;if(window.zStart)window.zStart()};
 /* ===== قفل الدخول ===== */
 function unlock(){$('#lock').style.display='none';try{sessionStorage.setItem('zzauth','1')}catch(e){}}
-$('#go').onclick=function(){if($('#u').value==='admin'&&$('#p').value==='000519')unlock();else $('#er').style.display='block'};
+$('#go').onclick=function(){if($('#u').value===LOGIN_USER&&$('#p').value===LOGIN_PASS)unlock();else $('#er').style.display='block'};
 try{if(sessionStorage.getItem('zzauth'))$('#lock').style.display='none'}catch(e){}
 
 /* ===== الوجه البشري: شفاه + رأس + عيون ===== */
@@ -121,10 +137,10 @@ function frame(ts){var t=ts/1000,dt=Math.min(.05,t-(A.t||t));A.t=t;
  A.tilt+=(tl-A.tilt)*Math.min(1,dt*4);A.gx+=(A.tgx-A.gx)*Math.min(1,dt*12);A.gy+=(A.tgy-A.gy)*Math.min(1,dt*12);A.brow+=(A.tb-A.brow)*Math.min(1,dt*8);
  var dy=A.nod*5+Math.sin(t*1.1)*1.5,dx=Math.sin(t*.5)*2+A.tilt*.5;
  el.fig.style.transform='translate('+dx.toFixed(2)+'px,'+dy.toFixed(2)+'px) rotate('+((A.tilt+A.nod*2.5)*.6).toFixed(2)+'deg) scale('+(1+A.nod*.012+(st==='listen'?.025:0)).toFixed(3)+')';
- if(t>A.nb){A.bs=t;A.nb=t+2+Math.random()*3.5}var b=t-A.bs,ly=b<.16?30*Math.sin(Math.PI*b/.16):0;
+ if(t>A.nb){A.bs=t;A.nb=t+2+Math.random()*3.5}var b=t-A.bs,ly=b<.16?36*Math.sin(Math.PI*b/.16):0;
  el.lA.setAttribute('ry',ly.toFixed(2));el.lB.setAttribute('ry',ly.toFixed(2));
  A.sf+=((A.sp?1:0)-A.sf)*Math.min(1,dt*6);
- var eff=.5*(1-A.sf)+A.sf*(.08+A.mo*.72),hw=49*(.7+.3*A.mw)*(1+.04*A.sf),cx=256,ty=229,tm=ty+8,bm=tm+6+eff*52,c2=2*bm-ty,
+ var eff=.5*(1-A.sf)+A.sf*(.08+A.mo*.72),hw=45*(.7+.3*A.mw)*(1+.04*A.sf),cx=272,ty=243,tm=ty+8,bm=tm+6+eff*52,c2=2*bm-ty,
   top='M'+(cx-hw)+' '+ty+'Q'+cx+' '+(ty+16)+' '+(cx+hw)+' '+ty,dm=top+'Q'+cx+' '+c2+' '+(cx-hw)+' '+ty+'Z';
  el.mt.setAttribute('d',dm);el.cmp.setAttribute('d',dm);
  el.tt.setAttribute('d',top+'L'+(cx+hw)+' '+(ty+9)+'Q'+cx+' '+(ty+25)+' '+(cx-hw)+' '+(ty+9)+'Z');
@@ -264,7 +280,7 @@ function answer(t,f){if(!isQ(t,f))return null;var i;
  if(isAr(t))return{parts:[{fr:'J’ai compris que tu as une question ! Essaie de la poser en français, même avec des mots simples.',ar:'حاول صياغة سؤالك بالفرنسية ولو ببساطة، وسأساعدك.'}]};
  if(/\btu\b|\btoi\b|\bton\b|\bta\b|\btes\b/.test(f))return{parts:[P(pick(PE))]};
  var r={parts:[P(pick(UQ))]};if(!S.hinted){S.hinted=1;r.parts.push({fr:'',ar:'💡 للإجابة عن أي سؤال بحرّية فعّل زر ⚙️ العقل الذكي.'})}return r}
-function localReply(t){var fc=extract(t),k;for(k in fc)ST.f[k]=fc[k];save();
+function localReply(t){var fc=extract(t),k;for(k in fc)ST.f[k]=fc[k];save();if(fc.name)syncName();
  var sp=special(t);if(sp)return sp;var f=fold(t),toks=f.split(/[^a-z]+/),best=null,bs=0;
  var an=answer(t,f);if(an){var q0=topicQ();if(!q0){var nt0=surprise();an.parts.push(setTopic(nt0));q0=topicQ()}if(q0){an.parts=an.parts.concat(q0.parts);an.sug=q0.sug}return an}
  D.topics.forEach(function(tp){var sc=tp.kw.filter(function(w){return toks.indexOf(w)>-1}).length;if(sc>bs){bs=sc;best=tp}});
@@ -285,7 +301,7 @@ function done(){busy=0;if(ST.hands)setTimeout(listen,250);else setState('idle')}
 function handle(t){t=String(t||'').trim();if(!t||busy)return;busy=1;try{rec&&rec.abort()}catch(e){}stopSpeak();
  var box=addU(t);S.hist.push({role:'user',content:t});S.turns++;ST.xp+=3;save();
  if(!isAr(t))showFix(box,fix(t));setState('think');A.tb=-5;$('#cap').textContent='';
- var out=function(r){if(!url()&&ST.f.name&&S.turns%3===1&&r.parts&&r.parts[0]&&r.parts[0].fr){var q0=r.parts[0];r.parts[0]={fr:ST.f.name+', '+q0.fr.charAt(0).toLowerCase()+q0.fr.slice(1),ar:q0.ar}}setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
+ var out=function(r){if(!url()&&ST.f.name&&S.turns%2===1&&r.parts&&r.parts[0]&&r.parts[0].fr){var q0=r.parts[0];r.parts[0]={fr:ST.f.name+', '+q0.fr.charAt(0).toLowerCase()+q0.fr.slice(1),ar:q0.ar}}setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
  if(url())askAI(t).then(function(r){var parts=[{fr:r.reply_fr||'',ar:r.reply_ar||''}];if(r.tip_ar)parts.push({fr:'',ar:'💡 '+r.tip_ar});
    if((r.corrections||[]).length)box.innerHTML='<div class="fx">✏️ <b>ملاحظات زوزا:</b>'+r.corrections.map(function(c){return '<div><s dir="ltr">'+esc(c.wrong)+'</s> ← <u dir="ltr">'+esc(c.right)+'</u> — '+esc(c.why_ar||'')+'</div>'}).join('')+'</div>';
    out({parts:parts,sug:r.suggestions_fr})}).catch(function(){out(localReply(t))});
@@ -297,12 +313,14 @@ function startTopic(id){var r;busy=1;stopSpeak();try{rec&&rec.abort()}catch(e){}
  if(id==='twist'){addZ([P(pick(D.twisters)),{fr:'',ar:'جرّب أن تكررها بصوتك!'}],['Je répète !'],done);return}
  if(id==='riddle'){S.riddle=pick(RID);addZ([{fr:S.riddle[0],ar:S.riddle[1]}],[],done);return}
  var t=D.topics.filter(function(x){return x.id===id})[0];r=setTopic(t);var q2=topicQ();addZ([r].concat(q2.parts),q2.sug,done)}
+function saveName(){var v=$('#nm2').value;if(!setName(v)){note('⚠️ اكتب اسمك أولًا');return}note('✅ تم حفظ اسمك: '+ST.f.name);if(!busy)addZ([{fr:'Enchantée, '+ST.f.name+' ! Je t’appellerai par ton prénom.',ar:'تشرفت بمعرفتك يا '+ST.f.name+'! سأناديك باسمك.'}],[],done)}
+$('#nmb').onclick=saveName;$('#nm2').onkeydown=function(e){if(e.key==='Enter')saveName()};
 $('#snd').onclick=function(){var v=$('#ip').value;$('#ip').value='';handle(v)};
 $('#ip').onkeydown=function(e){if(e.key==='Enter'){var v=this.value;this.value='';handle(v)}};
 document.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;var d=x.dataset;
  if(d.lv){ST.lv=d.lv;save();chips()}else if(d.tp)startTopic(d.tp);else if(d.say){busy=1;speak(d.say,done)}
  else if(d.fill){handle(d.fill)}
- else if(d.tg==='name'){var nv=prompt('ما اسمك؟ (يُفضّل بحروف لاتينية)',ST.f.name||'');if(nv&&nv.trim()){ST.f.name=nv.trim().charAt(0).toUpperCase()+nv.trim().slice(1);save();note('جميل! ستناديك زوزا: '+ST.f.name)}}
+ else if(d.tg==='name'){$('#nm2').focus();$('#nm2').scrollIntoView({block:'center'})}
  else if(d.tg==='ai'){var v=prompt('ألصق رابط zoza-worker (https://…) أو اتركه فارغًا للوضع المحلي:',ST.ai||'');if(v!==null){ST.ai=v.trim();save();note(ST.ai?'تم تفعيل العقل الذكي ✅':'الوضع المحلي')}}
  else if(d.tg){ST[d.tg]=ST[d.tg]?0:1;save();chips();if(d.tg==='tr')document.querySelectorAll('[data-ar]').forEach(function(a){a.hidden=!ST.tr});if(d.tg==='voice'&&!ST.voice)stopSpeak()}});
 /* ===== الإقلاع ===== */
