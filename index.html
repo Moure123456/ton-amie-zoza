@@ -67,6 +67,11 @@ main{width:100%}
 .nmrow{display:flex;gap:6px;align-items:center;margin-bottom:8px}.nmrow span{font-size:1.2rem}
 #nm2{flex:1;min-width:0;padding:9px 12px;border:2px solid #e9d5ff;border-radius:14px;font-size:1rem;font-family:inherit;direction:ltr;outline:0}#nm2:focus{border-color:#7c3aed}
 #nmb{border:0;background:#7c3aed;color:#fff;border-radius:14px;padding:10px 14px;font-weight:800}
+.tg2{display:inline-block;background:#fee2e2;color:#991b1b;border-radius:8px;padding:0 6px;font-size:.7rem;font-weight:800;margin-inline-end:4px}
+.fx button{border:0;background:#e0e7ff;color:#3730a3;border-radius:10px;padding:2px 8px;font-weight:800;min-height:0;margin:0 3px}
+.pr{direction:ltr;text-align:left;line-height:2}.pr b{padding:1px 5px;border-radius:7px;margin:0 2px;display:inline-block}.pg{background:#dcfce7;color:#166534}.po{background:#fef3c7;color:#92400e}.pb{background:#fee2e2;color:#991b1b}
+.sc{font-size:1.4rem;font-weight:900;direction:rtl;text-align:center}
+.tg button.warn{background:#fef3c7;border-color:#f59e0b;color:#92400e}
 </style></head><body>
 <div id="cover"><div class="sk"></div>
 <img class="cav" src="assets/zoza.jpg" alt="Zoza" onerror="this.style.display='none'">
@@ -99,7 +104,7 @@ var AI_URL='';
 var LOGIN_USER='adam',LOGIN_PASS='57634'; /* غيّرهما كما تشاء (ملاحظة: ظاهران في كود الصفحة) */ /* ضع رابط zoza-worker هنا لتفعيل العقل الذكي الحرّ */
 var $=function(s){return document.querySelector(s)},pk=new WeakMap(),pick=function(a){var u=pk.get(a);if(!u){u=[];pk.set(a,u)}if(u.length>=a.length)u.length=0;var i,n=0;do{i=Math.random()*a.length|0;n++}while(u.indexOf(i)>-1&&n<40);u.push(i);return a[i]};
 var ST=(function(){try{return JSON.parse(localStorage.getItem('zz2'))}catch(e){}})()||{};
-ST=Object.assign({lv:'b',voice:1,tr:1,hands:0,xp:0,ai:'',f:{}},ST);
+ST=Object.assign({lv:'b',voice:1,tr:1,hands:0,xp:0,ai:'',auto:1,f:{}},ST);
 function save(){try{localStorage.setItem('zz2',JSON.stringify(ST))}catch(e){}}
 var fold=function(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’‘`´]/g,"'")};
 var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
@@ -176,7 +181,7 @@ var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null,busy=0,
 function listen(){if(!ST.hands||busy||!SR)return;try{if(rec)rec.abort()}catch(e){}
  var r=new SR(),got=0;r.lang='fr-FR';r.interimResults=true;r.maxAlternatives=1;rec=r;
  r.onstart=function(){setState('listen');$('#cap').textContent='…'};
- r.onresult=function(e){var x=e.results[e.results.length-1],tx=x[0].transcript;$('#cap').textContent=tx;if(x.isFinal){got=1;errs=0;handle(tx)}};
+ r.onresult=function(e){var x=e.results[e.results.length-1],tx=x[0].transcript;$('#cap').textContent=tx;if(x.isFinal){got=1;errs=0;handle(tx,x[0].confidence)}};
  r.onerror=function(e){if(e.error==='not-allowed'||e.error==='service-not-allowed'){ST.hands=0;mic();note('⚠️ اسمح للمتصفح باستخدام الميكروفون.')}else errs++};
  r.onend=function(){if(!got&&ST.hands&&!busy&&errs<6)setTimeout(listen,350);else if(!got&&!busy){setState('idle')}};
  try{r.start()}catch(e){}}
@@ -203,11 +208,11 @@ function tpl(r){return r.map(function(x){return x[0]?x:['','']})}
 /* ===== الواجهة ===== */
 function chips(){$('#lv').innerHTML=['b','m','a'].map(function(l){return '<button data-lv="'+l+'" class="'+(ST.lv===l?'on':'')+'">'+D.levels[l].ic+' '+D.levels[l].ar+'</button>'}).join('');
  $('#tp').innerHTML='<button data-tp="*">🎲 فاجئني</button><button data-tp="joke">😂 نكتة</button><button data-tp="riddle">🧩 لغز</button><button data-tp="twist">🗣️ لسان معقود</button><button data-tp="wise">📜 حكمة</button>'+D.topics.map(function(t){return '<button data-tp="'+t.id+'" class="'+(S.tp&&S.tp.id===t.id?'on':'')+'">'+t.ic+' '+t.ar+'</button>'}).join('');
- $('#tg').innerHTML='<button data-tg="voice" class="'+(ST.voice?'on':'')+'">🔊 الصوت</button><button data-tg="tr" class="'+(ST.tr?'on':'')+'">🇪🇬 الترجمة</button><button data-tg="slow" class="'+(ST.slow?'on':'')+'">🐢 بطيء</button><button data-tg="name">👤 اسمي</button><button data-tg="ai">⚙️ العقل الذكي</button>'}
+ $('#tg').innerHTML='<button data-tg="voice" class="'+(ST.voice?'on':'')+'">🔊 الصوت</button><button data-tg="tr" class="'+(ST.tr?'on':'')+'">🇪🇬 الترجمة</button><button data-tg="slow" class="'+(ST.slow?'on':'')+'">🐢 بطيء</button><button data-tg="name">👤 اسمي</button><button data-tg="auto" class="'+(ST.auto?'on':'')+'">🤖 مستوى تلقائي</button><button data-tg="ai" class="'+(url()?'on':'warn')+'">'+(url()?'🧠 الذكاء مُفعَّل ✅':'🧠 فعّل الذكاء ⚠️')+'</button>'}
 function scroll_(){var c=$('#chat');setTimeout(function(){c.scrollTop=c.scrollHeight},30)}
 function note(t){var d=document.createElement('div');d.className='t';d.textContent=t;$('#chat').appendChild(d);scroll_()}
 function addZ(parts,sug,cb){var fr=parts.map(function(p){return p.fr}).filter(Boolean).join(' '),ar=parts.map(function(p){return p.ar}).filter(Boolean).join(' '),d=document.createElement('div');d.className='m';
- d.innerHTML='<div class="fr">'+esc(fr)+'</div>'+(ar?'<div class="ar" data-ar'+(ST.tr?'':' hidden')+'>'+esc(ar)+'</div>':'')+(fr?'<button data-say="'+esc(fr)+'">🔊</button>':'');
+ d.innerHTML='<div class="fr">'+esc(fr)+'</div>'+(ar?'<div class="ar" data-ar'+(ST.tr?'':' hidden')+'>'+esc(ar)+'</div>':'')+(fr?'<button data-say="'+esc(fr)+'">🔊</button><button data-pr="'+esc(fr)+'">🎤 درّب نطقك</button>':'');
  $('#chat').appendChild(d);scroll_();S.last={fr:fr,ar:ar};S.hist.push({role:'assistant',content:fr||ar});
  sgs(sug);if(fr)speak(fr,cb);else if(cb)cb()}
 function addU(t){var d=document.createElement('div');d.className='m u';d.innerHTML='<div class="fr">'+esc(t)+'</div><div class="fb"></div>';$('#chat').appendChild(d);scroll_();return d.querySelector('.fb')}
@@ -294,18 +299,50 @@ function localReply(t){var fc=extract(t),k;for(k in fc)ST.f[k]=fc[k];save();if(f
  return{parts:parts,sug:sug}}
 /* ===== الذكاء الاصطناعي (اختياري) ===== */
 function url(){return window.ZOZA_AI_URL||AI_URL||ST.ai||''}
-function askAI(t){var c=window.AbortController?new AbortController():null,to=setTimeout(function(){c&&c.abort()},15000);
- return fetch(url(),{method:'POST',headers:{'Content-Type':'application/json'},signal:c?c.signal:undefined,body:JSON.stringify({message:t,history:S.hist.slice(-20),level:ST.lv,topic:S.tp?S.tp.fr:'',name:ST.f.name||'',facts:ST.f})}).then(function(r){clearTimeout(to);if(!r.ok)throw 0;return r.json()})}
+function askAI(t,conf){var c=window.AbortController?new AbortController():null,to=setTimeout(function(){c&&c.abort()},15000);
+ return fetch(url(),{method:'POST',headers:{'Content-Type':'application/json'},signal:c?c.signal:undefined,body:JSON.stringify({message:t,history:S.hist.slice(-24),level:ST.lv,auto:!!ST.auto,topic:S.tp?S.tp.fr:'',name:ST.f.name||'',facts:ST.f,spoken:conf!=null,confidence:conf==null?null:conf})}).then(function(r){clearTimeout(to);if(!r.ok)throw 0;return r.json()})}
 /* ===== معالجة الرسالة ===== */
 function done(){busy=0;if(ST.hands)setTimeout(listen,250);else setState('idle')}
-function handle(t){t=String(t||'').trim();if(!t||busy)return;busy=1;try{rec&&rec.abort()}catch(e){}stopSpeak();
+var TYPE={orthographe:'إملاء',grammaire:'قواعد',conjugaison:'تصريف',accord:'مطابقة',vocabulaire:'مفردات',prononciation:'نطق',ponctuation:'ترقيم',registre:'أسلوب'};
+function box_(is,pr,conf){var o='';
+ if(is&&is.length)o+='<div class="fx">✏️ <b>تصحيح الكتابة:</b>'+is.map(function(i){return '<div>'+(i.type?'<span class="tg2">'+esc(TYPE[i.type]||i.type)+'</span>':'')+'<s dir="ltr">'+esc(i.wrong)+'</s> ← <u dir="ltr">'+esc(i.right)+'</u><br>'+esc(i.why_ar||i.why||'')+'</div>'}).join('')+'</div>';
+ if(pr&&pr.length)o+='<div class="fx">🎧 <b>ملاحظات النطق:</b>'+pr.map(function(w){return '<div><button data-pw="'+esc(w.word)+'">🔊 '+esc(w.word)+'</button> '+esc(w.tip_ar||w.issue_ar||'')+'</div>'}).join('')+'</div>';
+ if(conf!=null&&conf<.8)o+='<div class="fx">🎧 وضوح نطقك ≈ '+Math.round(conf*100)+'% — تحدّث ببطء ووضوح أكثر، أو اضغط «🎤 درّب نطقك» أسفل أي جملة لزوزا.</div>';
+ return o}
+var LV={A1:'b',A2:'b',B1:'m',B2:'a',C1:'a',C2:'a'};
+function handle(t,conf){t=String(t||'').trim();if(!t||busy)return;busy=1;try{rec&&rec.abort()}catch(e){}stopSpeak();
  var box=addU(t);S.hist.push({role:'user',content:t});S.turns++;ST.xp+=3;save();
- if(!isAr(t))showFix(box,fix(t));setState('think');A.tb=-5;$('#cap').textContent='';
- var out=function(r){if(!url()&&ST.f.name&&S.turns%2===1&&r.parts&&r.parts[0]&&r.parts[0].fr){var q0=r.parts[0];r.parts[0]={fr:ST.f.name+', '+q0.fr.charAt(0).toLowerCase()+q0.fr.slice(1),ar:q0.ar}}setTimeout(function(){addZ(r.parts,r.sug,done)},500+Math.min(700,t.length*8))};
- if(url())askAI(t).then(function(r){var parts=[{fr:r.reply_fr||'',ar:r.reply_ar||''}];if(r.tip_ar)parts.push({fr:'',ar:'💡 '+r.tip_ar});
-   if((r.corrections||[]).length)box.innerHTML='<div class="fx">✏️ <b>ملاحظات زوزا:</b>'+r.corrections.map(function(c){return '<div><s dir="ltr">'+esc(c.wrong)+'</s> ← <u dir="ltr">'+esc(c.right)+'</u> — '+esc(c.why_ar||'')+'</div>'}).join('')+'</div>';
-   out({parts:parts,sug:r.suggestions_fr})}).catch(function(){out(localReply(t))});
+ if(!url()){var lf=!isAr(t)?fix(t):[];box.innerHTML=box_(lf,null,conf)}else box.innerHTML=box_(null,null,conf);
+ setState('think');A.tb=-5;$('#cap').textContent='';
+ var out=function(r){if(!url()&&ST.f.name&&S.turns%2===1&&r.parts&&r.parts[0]&&r.parts[0].fr){var q0=r.parts[0];r.parts[0]={fr:ST.f.name+', '+q0.fr.charAt(0).toLowerCase()+q0.fr.slice(1),ar:q0.ar}}setTimeout(function(){addZ(r.parts,r.sug,done)},400+Math.min(600,t.length*6))};
+ if(url())askAI(t,conf).then(function(r){var parts=[{fr:r.reply_fr||'',ar:r.reply_ar||''}];
+   if(r.new_words&&r.new_words.length)parts.push({fr:'',ar:'📚 كلمات جديدة: '+r.new_words.slice(0,4).map(function(w){return w.fr+' = '+w.ar}).join(' ، ')});
+   if(r.tip_ar)parts.push({fr:'',ar:'💡 '+r.tip_ar});
+   if(r.facts&&typeof r.facts==='object'){Object.keys(r.facts).forEach(function(k){if(r.facts[k]&&String(r.facts[k]).length<60)ST.f[k]=String(r.facts[k])});if(r.facts.name)syncName()}
+   var lv=String(r.level||'').toUpperCase().slice(0,2);if(ST.auto&&LV[lv]&&LV[lv]!==ST.lv){ST.lv=LV[lv];chips()}save();
+   box.innerHTML=box_(r.corrections,r.pronunciation,conf);
+   out({parts:parts,sug:r.suggestions_fr})}).catch(function(){var lf2=!isAr(t)?fix(t):[];box.innerHTML=box_(lf2,null,conf);out(localReply(t))});
  else out(localReply(t))}
+/* ===== تدريب النطق: قارن ما قلتَه بالجملة الصحيحة كلمة بكلمة ===== */
+function n1(s){return fold(s).replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim()}
+function lev(a,b){var m=[],i,j;for(i=0;i<=a.length;i++)m[i]=[i];for(j=1;j<=b.length;j++)m[0][j]=j;for(i=1;i<=a.length;i++)for(j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length]}
+function align(target,heard){var T=String(target).replace(/[«»]/g,'').split(/\s+/).filter(Boolean),H=n1(heard).split(' ').filter(Boolean),hi=0,res=[];
+ T.forEach(function(tok){var w=n1(tok);if(!w){res.push({tok:tok,w:'',h:'',s:1});return}var best=-1,bs=9,k,d;
+  for(k=hi;k<Math.min(H.length,hi+3);k++){d=lev(w,H[k])/Math.max(w.length,H[k].length);if(d<bs){bs=d;best=k}}
+  if(best>=0&&bs<=.5){res.push({tok:tok,w:w,h:H[best],s:1-bs});hi=best+1}else res.push({tok:tok,w:w,h:'',s:0})});return res}
+var prRec=null;
+function practice(target){if(busy)return;if(!SR){note('🎤 المتصفح لا يدعم التعرف على الصوت (استخدم Chrome).');return}
+ busy=1;stopSpeak();try{rec&&rec.abort()}catch(e){}setState('listen');$('#cap').textContent='🎤 كرّر الجملة الآن: '+target;
+ var r=new SR(),got=0;prRec=r;r.lang='fr-FR';r.interimResults=false;r.maxAlternatives=1;
+ r.onresult=function(e){got=1;var tx=e.results[0][0].transcript,res=align(target,tx),sc=res.filter(function(x){return x.w});
+  var avg=sc.length?Math.round(sc.reduce(function(a,x){return a+x.s},0)/sc.length*100):0,bad=res.filter(function(x){return x.w&&x.s<.85});
+  var d=document.createElement('div');d.className='m';
+  d.innerHTML='<div class="sc">'+(avg>=90?'🌟':avg>=70?'👍':'💪')+' نتيجة نطقك: '+avg+'%</div><div class="pr">'+res.map(function(x){return '<b class="'+(x.s>=.85?'pg':x.s>=.5?'po':'pb')+'">'+esc(x.tok)+'</b>'}).join(' ')+'</div>'+
+   (bad.length?'<div class="fx">'+bad.map(function(x){return '<div><button data-pw="'+esc(x.tok)+'">🔊 '+esc(x.tok)+'</button> '+(x.h?'سمعتُ «'+esc(x.h)+'» بدل «'+esc(x.w)+'»':'لم أسمع هذه الكلمة بوضوح')+'</div>'}).join('')+'<div>اضغط على الكلمة لتسمع نطقها الصحيح ثم أعد المحاولة.</div></div>':'<div class="fx">ممتاز! نطقك واضح 👏</div>');
+  $('#chat').appendChild(d);scroll_();ST.xp+=avg>=90?10:3;save()};
+ r.onerror=function(e){if(e.error==='not-allowed')note('⚠️ اسمح للمتصفح باستخدام الميكروفون.')};
+ r.onend=function(){if(!got)note('لم أسمع صوتك. اضغط 🎤 وحاول مرة أخرى.');prRec=null;busy=0;done()};
+ try{r.start()}catch(e){busy=0;done()}}
 function startTopic(id){var r;busy=1;stopSpeak();try{rec&&rec.abort()}catch(e){}
  if(id==='*'){r=setTopic(surprise());var q=topicQ();addZ([r].concat(q?q.parts:[]),q?q.sug:[],done);return}
  if(id==='joke'){addZ([P(pick(D.jokes))],['Ha ha !','Encore une !'],done);return}
@@ -318,14 +355,14 @@ $('#nmb').onclick=saveName;$('#nm2').onkeydown=function(e){if(e.key==='Enter')sa
 $('#snd').onclick=function(){var v=$('#ip').value;$('#ip').value='';handle(v)};
 $('#ip').onkeydown=function(e){if(e.key==='Enter'){var v=this.value;this.value='';handle(v)}};
 document.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;var d=x.dataset;
- if(d.lv){ST.lv=d.lv;save();chips()}else if(d.tp)startTopic(d.tp);else if(d.say){busy=1;speak(d.say,done)}
+ if(d.lv){ST.lv=d.lv;ST.auto=0;save();chips()}else if(d.pr){practice(d.pr)}else if(d.pw){if(!busy){busy=1;speak(d.pw,done)}}else if(d.tp)startTopic(d.tp);else if(d.say){busy=1;speak(d.say,done)}
  else if(d.fill){handle(d.fill)}
  else if(d.tg==='name'){$('#nm2').focus();$('#nm2').scrollIntoView({block:'center'})}
- else if(d.tg==='ai'){var v=prompt('ألصق رابط zoza-worker (https://…) أو اتركه فارغًا للوضع المحلي:',ST.ai||'');if(v!==null){ST.ai=v.trim();save();note(ST.ai?'تم تفعيل العقل الذكي ✅':'الوضع المحلي')}}
+ else if(d.tg==='ai'){var v=prompt('لتفعيل الذكاء الحقيقي: ألصق رابط zoza-worker (https://….workers.dev). اتركه فارغًا للوضع المحلي المحدود.',ST.ai||'');if(v!==null){ST.ai=v.trim();save();chips();note(ST.ai?'🧠 تم تفعيل الذكاء ✅ — جرّب أن تكتب أي شيء بالفرنسية.':'الوضع المحلي (محدود): للذكاء الكامل فعّل العقل الذكي.')}}
  else if(d.tg){ST[d.tg]=ST[d.tg]?0:1;save();chips();if(d.tg==='tr')document.querySelectorAll('[data-ar]').forEach(function(a){a.hidden=!ST.tr});if(d.tg==='voice'&&!ST.voice)stopSpeak()}});
 /* ===== الإقلاع ===== */
 var MR={pos:[['Magnifique !','رائع!'],['Quelle belle réponse !','إجابة جميلة!'],['Bravo, continue comme ça !','أحسنت، استمر!'],['Excellent, ton français progresse !','ممتاز، فرنسيتك تتحسن!']],neg:[['Oh, c’est dommage.','يا للأسف.'],['Je suis là pour toi.','أنا هنا بجانبك.'],['Pas de souci, ça arrive.','لا بأس، هذا يحدث.']],neu:[['Ah, d’accord !','آه، حسنًا!'],['C’est vrai ?','حقًّا؟'],['Je ne savais pas !','لم أكن أعلم!'],['Hmm, intéressant.','همم، مثير.'],['Ça alors !','يا للعجب!'],['D’accord, je note !','حسنًا، سأتذكر ذلك!']],long:[['Wow, quelle belle phrase !','يا لها من جملة جميلة!'],['Tu parles de mieux en mieux !','تتحدث أفضل فأفضل!']]};
-function ready(){['pos','neg','neu','long'].forEach(function(k){D.react[k]=(D.react[k]||[]).concat(MR[k])});D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');
+function ready(){['pos','neg','neu','long'].forEach(function(k){D.react[k]=(D.react[k]||[]).concat(MR[k])});D.topics=D.topics.concat(X.map(norm));chips();mic();setState('idle');if(!url())note('🧠 تنبيه: أنا الآن في الوضع المحلي المحدود. للحوار الذكي الكامل (تصحيح شامل وفهم أي موضوع) فعّل «العقل الذكي».');
  window.zStart=function(){if(window.zDone)return;window.zDone=1;var n=ST.f.name;addZ([{fr:'Bonjour'+(n?' '+n:'')+' ! Je suis Zoza, ton amie. Appuie sur le micro et parlons français ensemble !',ar:'مرحبًا! أنا زوزا صديقتك. اضغط على الميكروفون ولنتحدث بالفرنسية معًا!'}],['Bonjour Zoza !','Je m’appelle …'],function(){busy=0;if(ST.hands)listen()})};if(window.zGo)window.zStart()}
 busy=1;fetch('data/talk.json').then(function(r){return r.json()}).then(function(j){D.levels=j.levels?Object.keys(j.levels).reduce(function(o,k){o[k]=j.levels[k];return o},{}):D.levels;D.topics=j.topics||[];['react','jokes','sayings','twisters'].forEach(function(k){if(j[k])D[k]=j[k]})}).catch(function(){}).then(ready);
 })();
